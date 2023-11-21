@@ -8,12 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>title</title>
     <jsp:include page="/include/bs4.jsp"/>
+    <style>
+    </style>
 </head>
 <body>
 <jsp:include page="/include/header.jsp"/>
 <p><br/></p>
 <div class="container">
-    	
+
+    <div style="height:1000px"></div>
 </div>
 <p><br/></p>
 <jsp:include page="/include/footer.jsp"/>
