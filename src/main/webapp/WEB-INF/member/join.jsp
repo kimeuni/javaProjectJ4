@@ -60,9 +60,26 @@
         'use strict';
         let childWindow;
         
+        // 아이디 중복확인
         function idCheck(){
         	let url = "idCheck.mem";
         	let winName = "아이디 중복확인";
+        	let opt = "width=500px, height=350px, top=300px, left=500px " 
+        	
+       		childWindow = window.open(url,winName,opt)
+        }
+        
+        // 아이디 input 클릭시 idCheck() 함수를 불러옴
+        $(function() {
+        	$("#mid").on("click",function(e){
+        		idCheck()
+        	});
+        });
+        
+        // 닉네임 중복 확인
+        function nickCheck(){
+        	let url = "nickCheck.mem";
+        	let winName = "닉네임 중복확인";
         	let opt = "width=500px, height=350px, top=300px, left=500px " 
         	
        		childWindow = window.open(url,winName,opt)
@@ -94,14 +111,14 @@
             <label for="pwd">비밀번호 <span class="pilsu">*</span></label>
         </div>
         <div class="joinInput">
-            <input type="password"  name="pwd" id="pwd" required  />
+            <input type="password" maxlength="16" name="pwd" id="pwd" required  />
             <span>(대문자,특수문자 1개이상&영소문자숫자/ 8~16자)</span>
         </div>
         <div class="joinStr">
             <label for="pwdOk">비밀번호 확인 <span class="pilsu">*</span></label>
         </div>
         <div class="joinInput">
-            <input type="password"  name="pwdOk" id="pwdOk" required  />
+            <input type="password" maxlength="16" name="pwdOk" id="pwdOk" required  />
         </div>
         <div class="joinStr">
             <label for="name">성명 <span class="pilsu">*</span></label>
@@ -114,17 +131,17 @@
         </div>
         <div class="joinInput">
             <input type="text"  name="nickName" id="nickName" required readonly />
-            <input type="button"  name="nickCheck" id="nickCheck"  value="중복확인" onclick="" class="btn btn-success btn-sm"/>
+            <input type="button"  name="nickCheck" id="nickCheck"  value="중복확인" onclick="nickCheck()" class="btn btn-success btn-sm"/>
         </div>
         <div class="joinStr" style="height: 110px;">
             주소 <span class="pilsu">*</span>
         </div>
          <div class="joinInput " style="height: 110px;">
          	<div style="margin-bottom: 5px">
-		        <input type="text" name="postcode" id="sample6_postcode" placeholder="우편번호" >
+		        <input type="text" name="postcode" id="sample6_postcode" readonly placeholder="우편번호" >
 	        	<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="btn btn-secondary btn-sm">
          	</div>
-	        <input type="text" name="roadAddress" id="sample6_address" placeholder="기본주소" style="width: 400px; margin-bottom: 5px">
+	        <input type="text" name="roadAddress" id="sample6_address" readonly placeholder="기본주소" style="width: 400px; margin-bottom: 5px">
 	        <div class="input-group mb-1">
 	        	<input type="text" name="detailAddress" id="sample6_detailAddress" placeholder="상세주소" style="width: 400px;"> &nbsp;&nbsp;
 		        <div class="input-group-append"> 

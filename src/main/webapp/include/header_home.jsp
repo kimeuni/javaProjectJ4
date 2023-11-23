@@ -71,7 +71,7 @@
 <div id="headerMain">
     <div id="headerN">
         <div id="logo1N" >
-            <a href="${ctp}/"><div id="logo2N"><i class="fa-solid fa-box"></i> 중고모아</div></a>
+            <a href="http://localhost:9090/JavaProjectJ4/"><div id="logo2N"><i class="fa-solid fa-box"></i> 중고모아</div></a>
         </div>
         <div id="searchDivN">
             <input type="text" name="searchN" id="searchN" placeholder="상품 검색" />
