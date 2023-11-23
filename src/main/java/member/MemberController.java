@@ -38,6 +38,10 @@ public class MemberController extends HttpServlet{
 		else if(com.equals("/idCheck")) {
 			viewPage += "/idCheck.jsp";
 		}
+		// 닉네임 중복 화면 이동
+		else if(com.equals("/nickCheck")) {
+			viewPage += "/nickCheck.jsp";
+		}
 		request.getRequestDispatcher(viewPage).forward(request, response);
 	}
 	

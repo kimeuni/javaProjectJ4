@@ -32,7 +32,7 @@
     		}
     		// 정규식 검사 (정규식과 작성한 아이디가 같이 않을 시)
     		else if(!ragMid.test(midC)){
-    			alert("아이디는 영소문자와 숫자만 사용하여야 하며 4~16자 사이로 입력해주셔야 합니다. .")
+    			alert("아이디는 영소문자와 숫자만 사용하여야 하며 4~16자 사이로 입력해주셔야합니다.")
     			document.getEltmetnById("midC").focus();
     			return false;
     		}

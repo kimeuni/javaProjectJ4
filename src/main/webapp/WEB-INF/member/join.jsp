@@ -84,6 +84,42 @@
         	
        		childWindow = window.open(url,winName,opt)
         }
+        
+        $(function() {
+        	$("#nickName").on("click",function(e){
+        		nickCheck()
+        	});
+        });
+        
+        // 회원가입
+        function joinOk(){
+        	//정규식
+        	let regPwd = /^(?=.*[a-zA-Z0-9])(?=.*[~!@#$%^&*()_+[\]{}?]).{8,16}$/; //영문자(대/소), 숫자,특수문자(~!@#$%^&*()_+[]{}?)를 각각 1자이상 포함하고 8~16자까지 입력 
+        	let regName = /^[가-힣]{2,10}$/; //이름은 한글로, 2~10자
+        	let regTel = /^[0-9]{3,4}$/; //숫자만 3~4자
+        	//let regEmail = /^[\w]{3,15}@[a-zA-Z]+\.[a-z]{2,3}$/;   //이메일 형식에 맞도록
+        	
+        	// input에 적혀있는 값 가져오기
+        	let mid = document.getElementById("mid").value;
+        	let pwd = document.getElementById("pwd").value;
+        	let pwdOk = document.getElementById("pwdOk").value;
+        	let name = document.getElementById("name").value;
+        	let nickName = document.getElementById("nickName").value;
+        	let sample6_postcode = document.getElementById("sample6_postcode").value;
+        	let sample6_address = document.getElementById("sample6_address").value;
+        	let tel1 = document.getElementById("tel1").value;
+        	let tel2 = document.getElementById("tel2").value;
+        	let tel3 = document.getElementById("tel3").value;
+        	let email = document.getElementById("email").value;
+        	let gender = joinForm.gender.value;
+        	
+        	// 아이디 공백확인
+        	if(mid.trim() == ""){
+        		alert("아이디 중복확인을 통하여 아이디를 받아와주세요.");
+        		document.getElementById("mid").focus();
+        		return false;
+        	}
+        }
     </script>
 </head>
 <body>
@@ -99,6 +135,16 @@
             <h6><span class="pilsu">*</span>는 필수 입력</h6>
         </div>
         <p style="clear: both;"></p>
+        <div class="joinStr">
+        	프로필 <span class="pilsu">*</span>
+        </div>
+        <div class="joinInput"> 
+        	<input type="radio" name="profile" value="1.png" checked /><img src="${ctp}/images/1.png" width="40px" style="border-radius:100%">&nbsp;&nbsp;
+        	<input type="radio" name="profile" value="2.png" /><img src="${ctp}/images/2.png" width="40px" style="border-radius:100%">&nbsp;&nbsp;
+        	<input type="radio" name="profile" value="3.png" /><img src="${ctp}/images/3.png" width="40px" style="border-radius:100%">&nbsp;&nbsp;
+        	<input type="radio" name="profile" value="4.png" /><img src="${ctp}/images/4.png" width="40px" style="border-radius:100%">&nbsp;&nbsp;
+        	<input type="radio" name="profile" value="5.png" /><img src="${ctp}/images/5.png" width="40px" style="border-radius:100%">
+        </div>
         <div class="joinStr">
         <label for="mid">아이디 <span class="pilsu">*</span></label>
         </div>
@@ -161,8 +207,8 @@
                 <option value="018">018</option>
                 <option value="019">019</option>
             </select> - 
-            <input type="text" name="tel2" id="tel2" > - 
-            <input type="text" name="tel3" id="tel3">
+            <input type="text" name="tel2" maxlength="4" id="tel2" > - 
+            <input type="text" name="tel3" maxlength="4" id="tel3">
         </div>
         <div class="joinStr">
             <label for="email">이메일 <span class="pilsu">*</span></label>
