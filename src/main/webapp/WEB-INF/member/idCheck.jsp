@@ -27,28 +27,42 @@
     		// 공백 검사
     		if(midC.trim() == ""){
     			alert("중복확인 할 아이디를 작성해주세요.")
-    			document.getEltmetnById("midC").focus();
+    			document.getElemetnById("midC").focus();
     			return false;
     		}
     		// 정규식 검사 (정규식과 작성한 아이디가 같이 않을 시)
     		else if(!ragMid.test(midC)){
     			alert("아이디는 영소문자와 숫자만 사용하여야 하며 4~16자 사이로 입력해주셔야합니다.")
-    			document.getEltmetnById("midC").focus();
+    			document.getElemetnById("midC").focus();
     			return false;
     		}
     		else {
     		// ajax로 아이디 중복검사하기
     			$.ajax({
-    				
+    				url : "idCheckOk.mem",
+    				type : "post",
+    				data : {mid : midC},
+    				success : function(res){
+    					if(res != "0"){
+			    		// 만약 중복이면 demo에 mid(적은 아이디)는 존재하는 아이디 입니다. 띄우기
+							let str = '';
+			    			str += '<div><span style="color:red">';
+			    			str += midC+'</span>은(는) 존재하는 아이디 입니다. <br/>';
+			    			str += '다시 입력해주세요.';
+			    			str += '</div>';
+			    			$("#demo").html(str);
+    					}
+    					else{
+				    		// 중복이 아니면, 바로 중복검사 창 닫고 값 회원가입으로 보내기
+    						opener.document.getElementById("mid").value = midC;
+    			    		window.close();
+    					}
+    				},
+    				error : function(){
+    					alert("전송오류(idCheck.jsp)")
+    				}
     			});
     		}
-    		
-    		
-    		// 만약 중복이면 demo에 mid(적은 아이디)는 존재하는 아이디 입니다. 띄우기
-    		
-    		// 아니면, 바로 중복검사 창 닫고 값 회원가입으로 보내기
-    		opener.document.getElementById("mid").value = midC;
-    		window.close();
     	}
     	
     	// Enter(keyCode 13번)시, idOk() 함수를 불러온다.
@@ -69,6 +83,7 @@
 		<input type="text" name="midC" id="midC" maxlength="16" required autofocus placeholder="아이디 입력"/>
 		<a href="javascript:idOk()" class="btn btn-secondary">검색</a>
 	</div>
+	<hr/>
 	<div id="demo"></div>
 </body>
 </html> 

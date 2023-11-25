@@ -8,7 +8,7 @@ public class GetConn {
 	private static Connection conn = null;
 	
 	private String driver = "com.mysql.jdbc.Driver";
-	private String url = "jdbc:mysql://localhost:3306/javaProject";
+	private String url = "jdbc:mysql://localhost:3306/javaproject4";
 	private String user ="root";
 	private String password ="1234";
 	

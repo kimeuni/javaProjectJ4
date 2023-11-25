@@ -77,7 +77,7 @@
         });
         
         // 닉네임 중복 확인
-        function nickCheck(){
+        function nickCheck() {
         	let url = "nickCheck.mem";
         	let winName = "닉네임 중복확인";
         	let opt = "width=500px, height=350px, top=300px, left=500px " 
@@ -88,6 +88,34 @@
         $(function() {
         	$("#nickName").on("click",function(e){
         		nickCheck()
+        	});
+        });
+        
+        // 주소 클릭시
+        $(function() {
+        	$("#sample6_postcode").on("click",function(e){
+        		sample6_execDaumPostcode()
+        	});
+        });
+        // 주소 클릭시
+        $(function() {
+        	$("#sample6_address").on("click",function(e){
+        		sample6_execDaumPostcode()
+        	});
+        });
+        
+        // 이메일 중복 확인
+        function emailCheck(){
+        	let url = "emailCheck.mem";
+        	let winName = "이메일 중복확인";
+        	let opt = "width=500px, height=350px, top=300px, left=500px " 
+        	
+       		childWindow = window.open(url,winName,opt)
+        }
+        
+        $(function() {
+        	$("#email").on("click",function(e){
+        		emailCheck()
         	});
         });
         
@@ -118,6 +146,87 @@
         		alert("아이디 중복확인을 통하여 아이디를 받아와주세요.");
         		document.getElementById("mid").focus();
         		return false;
+        	}
+        	// 비밀번호 공백확인
+        	else if(pwd.trim() == ""){
+        		alert("비밀번호를 입력해주세요.")
+        		document.getElementById("pwd").focus();
+        		return false;
+        	}
+        	// 비밀번호 확인 공백확인
+        	else if(pwdOk.trim() == ""){
+        		alert("비밀번호를 입력해주세요.")
+        		document.getElementById("pwdOk").focus();
+        		return false;
+        	}
+        	// 비밀번호 정규식 확인
+        	else if(!regPwd.test(pwd)){
+        		alert("대문자,특수문자 1개이상&영소문자숫자/ 8~16자 사이로 입력해주세요.");
+        		document.getElementById("pwd").focus();
+        		return false;
+        	}
+        	// 비밀번호와 비밀번호 확인이 동일한지 확인
+        	else if(pwd != pwdOk){
+        		alert("작성하신 비밀번호와 확인 비밀번호가 틀립니다. 다시 확인해주세요.");
+        		document.getElementById("pwd").focus();
+        		return false;
+        	}
+        	// 성명 공백확인
+        	else if(name.trim() == ""){
+        		alert("성명을 입력해주세요.");
+        		document.getElementById("name").focus();
+        		return false;
+        	}
+        	// 성명 정규식 확인
+        	else if(!regName.test(name)){
+        		alert("성명은 한글로, 2~10자 사이로 입력해주셔야 합니다.");
+        		document.getElementById("name").focus();
+        		return false;
+        	}
+        	// 닉네임 공백확인
+        	else if(nickName.trim() == ""){
+        		alert("닉네임 중복확인을 통하여 닉네임를 받아와주세요.");
+        		document.getElementById("nickName").focus();
+        		return false;
+        	}
+        	// 주소 공백확인
+        	else if(sample6_postcode.trim() == "" || sample6_address.trim() == ""){
+        		alert("주소를 입력해주세요.");
+        		document.getElementById("sample6_postcode").focus();
+        		return false;
+        	}
+        	// 전화번호 정규식 확인
+        	else if(tel2.trim != "" && tel3.trim !=""){
+        		if(!regTel.test(tel2) || !regTel.test(tel3)){
+	        		alert("전화번호는 숫자로만 입력가능합니다.")
+	        		document.getElementById("tel2").focus();
+	        		return false;
+        		}
+        	}
+        	// 이메일 공백확인
+        	else if(email.trim() == ""){
+        		alert("이메일 중복확인을 통하여 이메일을 받아와주세요.")
+        		document.getElementById("email").focus();
+        		return false;
+        	}
+        	// front 검사 끝 submit 보내기
+        	else {
+        		// 전화번호 값이 들어오기 않을 시 공백으로 넣기
+        		if(tel2.trim()=="" && tel3.trim() == ""){
+	        		tel2 = " ";
+	        		tel3 = " ";
+        		}
+        		// 전송전 '전화번호' 하나로 묶어서 전송처리 준비
+        		myform.tel.value = tel1 + "-" + tel2 + "-" + tel3;
+        		
+        		// 전송전에 '주소'를 하나로 묶어서 전송처리 준비
+            	let postcode = myform.postcode.value + " ";
+            	let roadAddress = myform.roadAddress.value + " ";
+            	let detailAddress = myform.detailAddress.value + " ";
+            	let extraAddress = myform.extraAddress.value + " ";
+            	joinForm.address.value = postcode + "/" + roadAddress + "/" + detailAddress + "/" + extraAddress;
+          		
+          		myform.submit();
         	}
         }
     </script>
@@ -180,7 +289,7 @@
             <input type="button"  name="nickCheck" id="nickCheck"  value="중복확인" onclick="nickCheck()" class="btn btn-success btn-sm"/>
         </div>
         <div class="joinStr" style="height: 110px;">
-            주소 <span class="pilsu">*</span>
+            <label for="sample6_postcode">주소 <span class="pilsu">*</span></label>
         </div>
          <div class="joinInput " style="height: 110px;">
          	<div style="margin-bottom: 5px">
@@ -215,7 +324,7 @@
         </div>
         <div class="joinInput">
             <input type="text" name="email" id="email" readonly required /> 
-            <input type="button"  name="mailCheck" id="mailCheck"  value="중복확인" onclick="" class="btn btn-success btn-sm"/>
+            <input type="button"  name="mailCheck" id="mailCheck"  value="중복확인" onclick="emailCheck()" class="btn btn-success btn-sm"/>
         </div>
         <div class="joinStr">
             성별 <span class="pilsu">*</span>

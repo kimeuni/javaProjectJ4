@@ -42,6 +42,34 @@ public class MemberController extends HttpServlet{
 		else if(com.equals("/nickCheck")) {
 			viewPage += "/nickCheck.jsp";
 		}
+		// 이메일 중복 화면 이동
+		else if(com.equals("/emailCheck")) {
+			viewPage += "/emailCheck.jsp";
+		}
+		// 아이디 중복 처리
+		else if(com.equals("/idCheckOk")) {
+			commend = new IdCheckOkCommend();
+			commend.execute(request, response);
+			return;
+		}
+		// 닉네임 중복 처리
+		else if(com.equals("/nickCheckOk")) {
+			commend = new NickCheckOkCommend();
+			commend.execute(request, response);
+			return;
+		}
+		// 이메일 중복 처리
+		else if(com.equals("/emailCheckOk")) {
+			commend = new EmailCheckOkCommend();
+			commend.execute(request, response);
+			return;
+		}
+		// 회원가입 처리
+		else if(com.equals("/joinOk")) {
+			commend = new JoinOkCommend();
+			commend.execute(request, response);
+			return;
+		}
 		request.getRequestDispatcher(viewPage).forward(request, response);
 	}
 	

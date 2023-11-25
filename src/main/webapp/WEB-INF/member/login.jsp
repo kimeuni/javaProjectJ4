@@ -70,7 +70,7 @@
 <form name="loginForm" method="post" action="loginOk.mem">
     <div class="loginStyle">
         <input type="text" name="mid" id="mid" required autofocus placeholder="아이디 입력" style="text-align: left;" />
-        <input type="checkbox" name="idCheck" id="idCheck" value="save" /><span style="color: gray;">ID저장</span>
+        <input type="checkbox" name="idCheck" id="idCheck" value="save" /><label for="idCheck"><span style="color: gray;">ID저장</span></label>
     </div>
     <div class="loginStyle">
         <input type="password" name="pwd" id="pwd" required placeholder="비밀번호 입력" style="text-align: left;"/>
