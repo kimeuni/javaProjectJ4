@@ -73,7 +73,42 @@
     </style>
     <script>
         'use strict';
+        function idFindOk(){
+        	let email = document.getElementById("email").value;
+        	if(email.trim() == ""){
+        		alert("이메일을 입력해주세요.");
+        	}
+        	else {
+        		$.ajax({
+        			url : "idFindOk.mem",
+        			type : "post",
+        			data : {email : email},
+        			success : function(res){
+        				if(res == "0") alert("이메일을 다시 확인해주세요.")
+        				else {
+        					let str = '';
+        					str += '<hr/>';
+        					str += '<div style="margin:0 auto; text-align:center; width:650px; font-size: 1.5em;">'; 
+        					str += '찾으시는 아이디는 <span style="color:red;">' + res + '</span>입니다.';
+        					str += '</div>';
+        					
+        					demo.innerHTML = str;
+        				}
+        			},
+        			error : function(){
+        				alert("전송오류 (idFind.jsp)")
+        			}
+        		});
+        	}
+        }
         
+        $(function() {
+        	$("#email").on("keydown",function(e){
+        		if(e.keyCode == 13){
+        			idFindOk();
+        		}
+        	});
+        });
     </script>
 </head>
 <body>
@@ -95,10 +130,11 @@
             </div>
                 <div style="height: 35px;"></div>
             <div id="btnDiv">
-                <input type="button" value="아이디찾기" onclick="" class="btn btn-primary form-control">
+                <input type="button" value="아이디찾기" onclick="idFindOk()" class="btn btn-primary form-control">
             </div>
         </form>
     </div>
+    <div id="demo"></div>
 <p><br/></p>
 <jsp:include page="/include/footer.jsp"/> 
 </body>

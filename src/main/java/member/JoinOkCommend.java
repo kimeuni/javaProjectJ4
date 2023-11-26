@@ -22,6 +22,49 @@ public class JoinOkCommend implements MemberInterface {
 		String email = request.getParameter("email")==null ? "" : request.getParameter("email");
 		String gender = request.getParameter("gender")==null ? "" : request.getParameter("gender");
 		
+		// 백엔드 간단 유효성 처리
+		if(profile.equals("")) {
+			request.setAttribute("msg", "회원가입시 문제가 발생하였습니다.(프로필)");
+			request.setAttribute("url", "main.ad");
+		}
+		else if(mid.equals("") || (mid.length() < 4 && mid.length() > 16 )) {
+			request.setAttribute("msg", "회원가입시 문제가 발생하였습니다.(아이디)");
+			request.setAttribute("url", "main.ad");
+		}
+		else if(pwd.equals("") || (pwd.length() < 8 && pwd.length() > 16 )) {
+			request.setAttribute("msg", "회원가입시 문제가 발생하였습니다.(비밀번호)");
+			request.setAttribute("url", "main.ad");
+		}
+		else if(name.equals("") || (name.length() < 2 && name.length() > 10 )) {
+			request.setAttribute("msg", "회원가입시 문제가 발생하였습니다.(성명)");
+			request.setAttribute("url", "main.ad");
+		}
+		else if(nickName.equals("") || (nickName.length() < 2 && nickName.length() > 12 )) {
+			request.setAttribute("msg", "회원가입시 문제가 발생하였습니다.(닉네임)");
+			request.setAttribute("url", "main.ad");
+		}
+		else if(address.equals("")) {
+			request.setAttribute("msg", "회원가입시 문제가 발생하였습니다.(주소)");
+			request.setAttribute("url", "main.ad");
+		}
+		else if(tel.equals("")) {
+			request.setAttribute("msg", "회원가입시 문제가 발생하였습니다.(전화번호)");
+			request.setAttribute("url", "main.ad");
+		}
+		else if(email.equals("")) {
+			request.setAttribute("msg", "회원가입시 문제가 발생하였습니다.(이메일)");
+			request.setAttribute("url", "main.ad");
+		}
+		else if(gender.equals("")) {
+			request.setAttribute("msg", "회원가입시 문제가 발생하였습니다.(성별)");
+			request.setAttribute("url", "main.ad");
+		}
+		
+		// 비밀번호 암호화
+		SecurityUtil security = new SecurityUtil();
+		pwd = security.encryptSHA256(pwd);
+		
+		// vo에 담기
 		MemberJVO vo = new MemberJVO();
 		vo.setProfile(profile);
 		vo.setMid(mid);
@@ -33,44 +76,19 @@ public class JoinOkCommend implements MemberInterface {
 		vo.setEmail(email);
 		vo.setGender(gender);
 		
-		
-		// 간단 유효성 처리
-		if(profile.equals("")) {
-			
-		}
-		else if(mid.equals("") || (mid.length() < 4 && mid.length() > 16 )) {
-			
-		}
-		else if(pwd.equals("") || (pwd.length() < 8 && pwd.length() > 16 )) {
-			
-		}
-		else if(name.equals("") || (name.length() < 2 && name.length() > 10 )) {
-			
-		}
-		else if(nickName.equals("") || (nickName.length() < 2 && nickName.length() > 12 )) {
-			
-		}
-		else if(address.equals("")) {
-			
-		}
-		else if(tel.equals("")) {
-			
-		}
-		else if(email.equals("")) {
-			
-		}
-		else if(gender.equals("")) {
-			
-		}
-		
-		// 비밀번호 암호화
-		SecurityUtil security = new SecurityUtil();
-		security.encryptSHA256(pwd);
-		
 		MemberJDAO dao = new MemberJDAO();
 		
 		// 회원가입 처리
-		dao.setMemberJoinOk(vo);
+		int res = dao.setMemberJoinOk(vo);
+		
+		if(res == 0) {
+			request.setAttribute("msg", "회원가입에 실패하셨습니다.");
+			request.setAttribute("url", "join.mem");
+		}
+		else {
+			request.setAttribute("msg", "회원가입되었습니다.");
+			request.setAttribute("url", "main.ad");
+		}
 	}
 
 }

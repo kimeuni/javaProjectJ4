@@ -75,6 +75,15 @@
         		idCheck()
         	});
         });
+        // keydown 시 
+        $(function() {
+        	$("#mid").on("keydown",function(e){
+        		// Tab이 아닐 시 (마우스 사용을 잘 안하는 사람을 위해서 Tab제외 아무키나 눌러도 중복확으로 들어가도록 처리)
+        		if(e.keyCode != 9){
+	        		idCheck()
+        		}
+        	});
+        });
         
         // 닉네임 중복 확인
         function nickCheck() {
@@ -85,9 +94,19 @@
        		childWindow = window.open(url,winName,opt)
         }
         
+        // 클릭시
         $(function() {
         	$("#nickName").on("click",function(e){
         		nickCheck()
+        	});
+        });
+     	// keydown 시 
+        $(function() {
+        	$("#nickName").on("keydown",function(e){
+        		// Tab이 아닐 시 (마우스 사용을 잘 안하는 사람을 위해서 Tab제외 아무키나 눌러도 중복확으로 들어가도록 처리)
+        		if(e.keyCode != 9){
+        			nickCheck()
+        		}
         	});
         });
         
@@ -103,6 +122,24 @@
         		sample6_execDaumPostcode()
         	});
         });
+     	// keydown 시 
+        $(function() {
+        	$("#sample6_postcode").on("keydown",function(e){
+        		// Tab이 아닐 시 (마우스 사용을 잘 안하는 사람을 위해서 Tab제외 아무키나 눌러도 중복확으로 들어가도록 처리)
+        		if(e.keyCode != 9){
+        			sample6_execDaumPostcode()
+        		}
+        	});
+        });
+    	 // keydown 시 
+        $(function() {
+        	$("#sample6_address").on("keydown",function(e){
+        		// Tab이 아닐 시 (마우스 사용을 잘 안하는 사람을 위해서 Tab제외 아무키나 눌러도 중복확으로 들어가도록 처리)
+        		if(e.keyCode != 9){
+        			sample6_execDaumPostcode()
+        		}
+        	});
+        });
         
         // 이메일 중복 확인
         function emailCheck(){
@@ -113,14 +150,24 @@
        		childWindow = window.open(url,winName,opt)
         }
         
+        // 클릭시
         $(function() {
         	$("#email").on("click",function(e){
         		emailCheck()
         	});
         });
+        // keydown 시 
+        $(function() {
+        	$("#email").on("keydown",function(e){
+        		// Tab이 아닐 시 (마우스 사용을 잘 안하는 사람을 위해서 Tab제외 아무키나 눌러도 중복확으로 들어가도록 처리)
+        		if(e.keyCode != 9){
+        			emailCheck()
+        		}
+        	});
+        });
         
         // 회원가입
-        function joinOk(){
+        function joinOk() {
         	//정규식
         	let regPwd = /^(?=.*[a-zA-Z0-9])(?=.*[~!@#$%^&*()_+[\]{}?]).{8,16}$/; //영문자(대/소), 숫자,특수문자(~!@#$%^&*()_+[]{}?)를 각각 1자이상 포함하고 8~16자까지 입력 
         	let regName = /^[가-힣]{2,10}$/; //이름은 한글로, 2~10자
@@ -196,7 +243,7 @@
         		return false;
         	}
         	// 전화번호 정규식 확인
-        	else if(tel2.trim != "" && tel3.trim !=""){
+        	else if(tel2.trim() != "" && tel3.trim() !=""){
         		if(!regTel.test(tel2) || !regTel.test(tel3)){
 	        		alert("전화번호는 숫자로만 입력가능합니다.")
 	        		document.getElementById("tel2").focus();
@@ -217,16 +264,16 @@
 	        		tel3 = " ";
         		}
         		// 전송전 '전화번호' 하나로 묶어서 전송처리 준비
-        		myform.tel.value = tel1 + "-" + tel2 + "-" + tel3;
+        		joinForm.tel.value = tel1 + "-" + tel2 + "-" + tel3;
         		
         		// 전송전에 '주소'를 하나로 묶어서 전송처리 준비
-            	let postcode = myform.postcode.value + " ";
-            	let roadAddress = myform.roadAddress.value + " ";
-            	let detailAddress = myform.detailAddress.value + " ";
-            	let extraAddress = myform.extraAddress.value + " ";
+            	let postcode = joinForm.postcode.value + " ";
+            	let roadAddress = joinForm.roadAddress.value + " ";
+            	let detailAddress = joinForm.detailAddress.value + " ";
+            	let extraAddress = joinForm.extraAddress.value + " ";
             	joinForm.address.value = postcode + "/" + roadAddress + "/" + detailAddress + "/" + extraAddress;
           		
-          		myform.submit();
+            	joinForm.submit();
         	}
         }
     </script>
@@ -337,8 +384,11 @@
         <hr/>
         <div style=" text-align: center;">
             <input type="button" value="회원가입" onclick="joinOk()" class="btn btn-secondary"/> 
-            <input type="button" value="돌아가기" onclick="" class="btn btn-secondary"/>
+            <input type="button" value="돌아가기" onclick="location.href='login.mem'" class="btn btn-secondary"/>
         </div>
+        
+	    <input type="hidden" name="tel" />
+	    <input type="hidden" name="address" />
     </form>
 </div>
 <p><br/></p>

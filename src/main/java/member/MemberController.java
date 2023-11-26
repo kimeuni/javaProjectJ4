@@ -68,6 +68,24 @@ public class MemberController extends HttpServlet{
 		else if(com.equals("/joinOk")) {
 			commend = new JoinOkCommend();
 			commend.execute(request, response);
+			viewPage = "/include/msg.jsp";
+		}
+		// 로그인 처리
+		else if(com.equals("/loginOk")) {
+			commend = new LoginOkCommend();
+			commend.execute(request, response);
+			return;
+		}
+		// 로그아웃 처리
+		else if(com.equals("/logout")) {
+			commend = new LogoutCommend();
+			commend.execute(request, response);
+			viewPage = "/include/msg.jsp";
+		}
+		// 아이디 찾기 처리
+		else if(com.equals("/idFindOk")) {
+			commend = new IdFindOkCommend();
+			commend.execute(request, response);
 			return;
 		}
 		request.getRequestDispatcher(viewPage).forward(request, response);

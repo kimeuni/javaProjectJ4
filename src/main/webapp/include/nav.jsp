@@ -6,6 +6,8 @@
 		position : sticky; 
 		top:80px;
 		background-color:#fff;
+		box-shadow: 0px 5px 5px lightgray;
+		
 	}
     #navMain{
         margin: 0 auto;
@@ -27,12 +29,12 @@
     #category{
         font-size: 2em;
     }
-    #myStore{
+    #Mysell{
         position: absolute;
         line-height: 80px;
         right: 12%;
     }
-    #store{
+    #sell{
         font-size: 1.5em;
     }
     #category:hover{
@@ -56,8 +58,8 @@
 	    <div id="nav">
 	        <i class="fa-solid fa-bars" id="category"></i>
 	    </div>
-	    <div id="myStore">
-	        <a href="" style="padding: 0px 20px;" title="내 상점"><i class="fa-solid fa-cart-shopping" id="store"> 상점</i></a>
+	    <div id="Mysell">
+	        <a href="" style="padding: 0px 20px;" title="판매"><i class="fa-solid fa-sack-dollar" id="sell"> 판매</i></a>
 	    </div>
 	    <div id="myChat">
 	        <a href="" style="padding: 0px 20px;" title="채팅"><i class="fa-solid fa-comment" id="chat"> 채팅</i></a>

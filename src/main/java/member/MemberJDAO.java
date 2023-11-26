@@ -55,17 +55,89 @@ public class MemberJDAO {
 	}
 
 	// 회원가입 처리
-	public void setMemberJoinOk(MemberJVO vo) {
+	public int setMemberJoinOk(MemberJVO vo) {
+		int res = 0;
 		try {
-			sql= "";
+			sql= "insert into memberJ values (default,?,?,?,?,?,?,?,?,?,default,default,default,default)";
 			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.executeUpdate();
+			pstmt.setString(1, vo.getMid());;
+			pstmt.setString(2, vo.getPwd());
+			pstmt.setString(3, vo.getName());
+			pstmt.setString(4, vo.getNickName());
+			pstmt.setString(5, vo.getAddress());
+			pstmt.setString(6, vo.getTel());
+			pstmt.setString(7, vo.getEmail());
+			pstmt.setString(8, vo.getGender());
+			pstmt.setString(9, vo.getProfile());
+			res = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("sql문 오류(회원가입 처리)" + e.getMessage());
 		} finally {
 			pstmtClose();
 		}
+		return res;
 	}
 
+	// 아이디로 로그인 계정 확인
+	public MemberJVO getLoginMidOk(String mid) {
+		vo = new MemberJVO();
+		try {
+			sql = "select * from memberJ where mid=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				vo.setIdx(rs.getInt("idx"));
+				vo.setMid(rs.getString("mid"));
+				vo.setPwd(rs.getString("pwd"));
+				vo.setName(rs.getString("name"));
+				vo.setNickName(rs.getString("nickName"));
+				vo.setAddress(rs.getString("address"));
+				vo.setTel(rs.getString("tel"));
+				vo.setEmail(rs.getString("email"));
+				vo.setGender(rs.getString("gender"));
+				vo.setProfile(rs.getString("profile"));
+				vo.setUserDel(rs.getString("userDel"));
+				vo.setAdminYN(rs.getString("adminYN"));
+				vo.setStartDate(rs.getString("startDate"));
+				vo.setLastDate(rs.getString("lastDate"));
+			}
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(아이디로 로그인 계정 확인)" + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vo;
+	}
+
+	// 최종 방문일 업데이트
+	public void setLoginLastDateUpdate(String mid) {
+		try {
+			sql = "update memberJ set lastDate=now() where mid=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(로그인시 최종 방문일 업데이트)" + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+	}
+
+	// 아이디 찾기
+	public String getMemberMidSearch(String email) {
+		String res = "0";
+		try {
+			sql ="select * from memberJ where email=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, email);
+			rs = pstmt.executeQuery();
+			if(rs.next()) res = rs.getString("mid");
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(아이디 찾기)" + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return res;
+	}
 }
