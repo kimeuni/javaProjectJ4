@@ -86,7 +86,7 @@
         });
         
         // 닉네임 중복 확인
-        function nickCheck() {
+        function nickCheckOk() {
         	let url = "nickCheck.mem";
         	let winName = "닉네임 중복확인";
         	let opt = "width=500px, height=350px, top=300px, left=500px " 
@@ -97,7 +97,7 @@
         // 클릭시
         $(function() {
         	$("#nickName").on("click",function(e){
-        		nickCheck()
+        		nickCheckOk()
         	});
         });
      	// keydown 시 
@@ -105,7 +105,7 @@
         	$("#nickName").on("keydown",function(e){
         		// Tab이 아닐 시 (마우스 사용을 잘 안하는 사람을 위해서 Tab제외 아무키나 눌러도 중복확으로 들어가도록 처리)
         		if(e.keyCode != 9){
-        			nickCheck()
+        			nickCheckOk()
         		}
         	});
         });
@@ -182,6 +182,8 @@
         	let nickName = document.getElementById("nickName").value;
         	let sample6_postcode = document.getElementById("sample6_postcode").value;
         	let sample6_address = document.getElementById("sample6_address").value;
+        	let sample6_detailAddress = document.getElementById("sample6_detailAddress").value;
+        	let sample6_extraAddress = document.getElementById("sample6_extraAddress").value;
         	let tel1 = document.getElementById("tel1").value;
         	let tel2 = document.getElementById("tel2").value;
         	let tel3 = document.getElementById("tel3").value;
@@ -258,19 +260,14 @@
         	}
         	// front 검사 끝 submit 보내기
         	else {
-        		// 전화번호 값이 들어오기 않을 시 공백으로 넣기
-        		if(tel2.trim()=="" && tel3.trim() == ""){
-	        		tel2 = " ";
-	        		tel3 = " ";
-        		}
         		// 전송전 '전화번호' 하나로 묶어서 전송처리 준비
         		joinForm.tel.value = tel1 + "-" + tel2 + "-" + tel3;
         		
         		// 전송전에 '주소'를 하나로 묶어서 전송처리 준비
-            	let postcode = joinForm.postcode.value + " ";
-            	let roadAddress = joinForm.roadAddress.value + " ";
-            	let detailAddress = joinForm.detailAddress.value + " ";
-            	let extraAddress = joinForm.extraAddress.value + " ";
+            	let postcode = joinForm.postcode.value;
+            	let roadAddress = joinForm.roadAddress.value;
+            	let detailAddress = joinForm.detailAddress.value;
+            	let extraAddress = joinForm.extraAddress.value;
             	joinForm.address.value = postcode + "/" + roadAddress + "/" + detailAddress + "/" + extraAddress;
           		
             	joinForm.submit();
@@ -295,11 +292,11 @@
         	프로필 <span class="pilsu">*</span>
         </div>
         <div class="joinInput"> 
-        	<input type="radio" name="profile" value="1.png" checked /><img src="${ctp}/images/1.png" width="40px" style="border-radius:100%">&nbsp;&nbsp;
-        	<input type="radio" name="profile" value="2.png" /><img src="${ctp}/images/2.png" width="40px" style="border-radius:100%">&nbsp;&nbsp;
-        	<input type="radio" name="profile" value="3.png" /><img src="${ctp}/images/3.png" width="40px" style="border-radius:100%">&nbsp;&nbsp;
-        	<input type="radio" name="profile" value="4.png" /><img src="${ctp}/images/4.png" width="40px" style="border-radius:100%">&nbsp;&nbsp;
-        	<input type="radio" name="profile" value="5.png" /><img src="${ctp}/images/5.png" width="40px" style="border-radius:100%">
+        	<input type="radio" name="profile" id="profile1" value="1.png" checked /><label for="profile1"><img src="${ctp}/images/1.png" width="40px" style="border-radius:100%"></label>&nbsp;&nbsp;&nbsp;
+        	<input type="radio" name="profile" id="profile2" value="2.png" /><label for="profile2"><img src="${ctp}/images/2.png" width="40px" style="border-radius:100%"></label>&nbsp;&nbsp;&nbsp;
+        	<input type="radio" name="profile" id="profile3" value="3.png" /><label for="profile3"><img src="${ctp}/images/3.png" width="40px" style="border-radius:100%"></label>&nbsp;&nbsp;&nbsp;
+        	<input type="radio" name="profile" id="profile4" value="4.png" /><label for="profile4"><img src="${ctp}/images/4.png" width="40px" style="border-radius:100%"></label>&nbsp;&nbsp;&nbsp;
+        	<input type="radio" name="profile" id="profile5" value="5.png" /><label for="profile5"><img src="${ctp}/images/5.png" width="40px" style="border-radius:100%"></label>
         </div>
         <div class="joinStr">
         <label for="mid">아이디 <span class="pilsu">*</span></label>
@@ -333,7 +330,7 @@
         </div>
         <div class="joinInput">
             <input type="text"  name="nickName" id="nickName" required readonly />
-            <input type="button"  name="nickCheck" id="nickCheck"  value="중복확인" onclick="nickCheck()" class="btn btn-success btn-sm"/>
+            <input type="button"  name="nickCheck" id="nickCheck"  value="중복확인" onclick="nickCheckOk()" class="btn btn-success btn-sm"/>
         </div>
         <div class="joinStr" style="height: 110px;">
             <label for="sample6_postcode">주소 <span class="pilsu">*</span></label>
@@ -355,7 +352,7 @@
             <label for="tel2">휴대전화</label>
         </div>
         <div class="joinInput">
-            <select name="tel1" id="tel1" onchange="">
+            <select name="tel1" id="tel1">
                 <option selected value="010">010</option>
                 <option value="011">011</option>
                 <option value="016">016</option>
@@ -363,8 +360,8 @@
                 <option value="018">018</option>
                 <option value="019">019</option>
             </select> - 
-            <input type="text" name="tel2" maxlength="4" id="tel2" > - 
-            <input type="text" name="tel3" maxlength="4" id="tel3">
+            <input type="text" name="tel2" id="tel2" maxlength="4" id="tel2" > - 
+            <input type="text" name="tel3" id="tel3" maxlength="4" id="tel3">
         </div>
         <div class="joinStr">
             <label for="email">이메일 <span class="pilsu">*</span></label>

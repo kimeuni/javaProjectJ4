@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import common.SecurityUtil;
+
 public class LoginOkCommend implements MemberInterface {
 
 	@Override
@@ -15,6 +17,10 @@ public class LoginOkCommend implements MemberInterface {
 		String mid = request.getParameter("mid")==null ? "" : request.getParameter("mid");
 		String pwd = request.getParameter("pwd")==null ? "" : request.getParameter("pwd");
 		String idCheck = request.getParameter("idCheck")==null ? "NO" : request.getParameter("idCheck");
+		
+		// 비밀번호 암호화
+		SecurityUtil security = new SecurityUtil();
+		pwd = security.encryptSHA256(pwd);
 		
 		MemberJDAO dao = new MemberJDAO();
 		
@@ -32,6 +38,7 @@ public class LoginOkCommend implements MemberInterface {
 			res = "2";
 		}
 		else {
+			
 			// 1. 세션 저장
 			HttpSession session = request.getSession();
 			session.setAttribute("sMid", mid);

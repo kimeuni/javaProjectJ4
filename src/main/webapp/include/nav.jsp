@@ -3,11 +3,10 @@
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 <style>
 	nav{
-		position : sticky; 
+		position : sticky;
 		top:80px;
 		background-color:#fff;
 		box-shadow: 0px 5px 5px lightgray;
-		
 	}
     #navMain{
         margin: 0 auto;

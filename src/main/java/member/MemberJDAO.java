@@ -140,4 +140,77 @@ public class MemberJDAO {
 		}
 		return res;
 	}
+
+	// 비밀번호 찾기
+	public int getMemberPwdSearch(String mid, String email) {
+		int res = 0;
+		try {
+			sql = "select * from memberJ where mid=? and email=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			pstmt.setString(2, email);
+			rs = pstmt.executeQuery();
+			if(rs.next()) res = 1;
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(비밀번호 찾기)" + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return res;
+	}
+
+	// 임시 비밀번호 업데이트
+	public void setUpdatePwd(String mid, String pwd) {
+		try {
+			sql = "update memberJ set pwd=? where mid=?";
+			pstmt =conn.prepareStatement(sql);
+			pstmt.setString(1, pwd);
+			pstmt.setString(2, mid);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(임시 비밀번호 업데이트)" + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+	}
+
+	// 계정정보 비밀번호 변경
+	public int setMemberPwdUpdate(String mid, String newPwd) {
+		int res = 0;
+		try {
+			sql = "update memberJ set pwd=? where mid=?";
+			pstmt =conn.prepareStatement(sql);
+			pstmt.setString(1, newPwd);
+			pstmt.setString(2, mid);
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(계정정보 비밀번호 변경)" + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		return res;
+	}
+
+	//개인계정 정보 수정
+	public int setMemberInfoUpdate(MemberJVO vo, String mid) {
+		int res=0;
+		try {
+			sql="update memberJ set name=?, nickName=?, address=?, tel=?, email=?, gender=?, profile=? where mid=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getName());
+			pstmt.setString(2, vo.getNickName());
+			pstmt.setString(3, vo.getAddress());
+			pstmt.setString(4, vo.getTel());
+			pstmt.setString(5, vo.getEmail());
+			pstmt.setString(6, vo.getGender());
+			pstmt.setString(7, vo.getProfile());
+			pstmt.setString(8, mid);
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(개인계정 정보 수정)" + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		return res;
+	}
 }

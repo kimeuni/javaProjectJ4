@@ -14,7 +14,6 @@
             padding: 0px 200px;
             width: 100%;
             width: 1100px;
-            position: relative;
         }
         h1{
             text-align: center;
@@ -88,6 +87,52 @@
     <script>
         'use strict';
         
+        function pwdFind(){
+        	let mid = document.getElementById("mid").value;
+        	let email = document.getElementById("email").value;
+        	
+        	if(mid.trim() == ""){
+        		alert("아이디를 입력해주세요.");
+        	}
+        	else if(email.trim() == ""){
+        		alert("이메일을 입력해주세요.");
+        	}
+        	else {
+        		let query = {
+        			mid, mid,
+        			email, email
+        		}
+        		$.ajax({
+        			url : "pwdFindOk.mem",
+        			type : "post",
+        			data : query,
+        			success : function(res){
+        				if(res == "0") alert("아이디 혹은 이메일을 다시 확인해주세요.")
+        				else {
+        					let str = '';
+        					str += '<hr/>';
+        					str += '<div style="margin:0 auto; text-align:center; width:650px; font-size: 1.5em;">'; 
+        					str += '임시로 발급된 비밀번호는 <span style="color:red;">' + res + '</span>입니다. <br/>';
+        					str += '로그인 후, 계정정보에서 비밀번호 수정이 가능합니다.';
+        					str += '</div>';
+        					
+        					demo.innerHTML = str;
+        				}
+        			},
+        			error : function(){
+        				alert("전송오류 (idFind.jsp)")
+        			}
+        		});
+        	}
+        }
+        
+        $(function() {
+        	$("#email").on("keydown",function(e){
+        		if(e.keyCode == 13){
+        			pwdFind();
+        		}
+        	});
+        });
     </script>
 </head>
 <body>
@@ -113,11 +158,11 @@
 	        </div>
 	            <div style="height: 35px;"></div>
            <div id="btnDiv">
-	            <input type="button" value="임시 비밀번호 발급" onclick="" class="btn btn-primary form-control">
+	            <input type="button" value="임시 비밀번호 발급" onclick="pwdFind()" class="btn btn-primary form-control">
            </div>
 	    </form>
-	    
 	</div>
+	<div id="demo"></div>
 <p><br/></p>
 <jsp:include page="/include/footer.jsp"/> 
 </body>

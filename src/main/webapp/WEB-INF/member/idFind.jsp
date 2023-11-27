@@ -14,7 +14,7 @@
             padding: 0px 200px;
             width: 100%;
             width: 1100px;
-            position: relative;
+            /* position: relative; */
         }
         h1{
             text-align: center;

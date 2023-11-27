@@ -88,20 +88,14 @@
         line-height: 80px;
         font-size: 1.2em; 
     }
-    #headerMain ul li {
-    	list-style: none;
-    }
-    #userUL {
-    	/* display: none; */
+    #contentUser{
+    	width: 90px;
     	position: absolute;
-        top: 60px; 
+        top: 70px;
         right: 12%;
-    	width: 90px; 
-    } 
-    #headerMain ul li a{
-    	width: 90px; 
-    	text-align:center;
-        font-size: 1.2em; 
+        background-color: #fff;
+        text-align:center;
+        font-size: 1.2em;
     }
 </style>
 <script>
@@ -110,6 +104,25 @@
 		let ans = confirm("로그아웃 하시겠습니까?");
 		if(ans) location.href="logout.mem?mid=${sMid}";
     }
+    
+    // 유저 부분 
+    $(function() {
+   		$("#contentUser").hide();
+    });
+    
+    $(function() {
+		$("#user").mouseenter(function(){
+	   		$("#contentUser").show();
+		});
+    });
+    $(function() {
+		$("#contentUser").mouseleave (function(){
+	   		$("#contentUser").hide();
+		});
+    });
+    
+    // 알림
+    
 </script>
 <header>
 <div id="headerMain">
@@ -125,14 +138,15 @@
         <c:if test="${sMid == null }"><div id="login"><a href="login.mem">로그인/회원가입</a></div></c:if>
         <!-- 로그인 했을 시 -->
         <c:if test="${sMid != null }">
-        	<a href="#"><div id="user">${sNickName}님<i class="fa-solid fa-chevron-down"></i></div></a>
-        	<a href="#"><div id="bell"><i class="fa-regular fa-bell" title="알림"></i></div></a>
-        	<a href="#"><div id="store"><i class="fa-solid fa-cart-shopping" id="store" title="내상점"></i></div></a>
-        	<ul id="userUL">
-				<li><a href="">계정설정</a></li>	        	
-				<li><a href="javascript:logout()">로그아웃</a></li>	        	
-        	</ul>
+		<div id="user">${sNickName}님<i class="fa-solid fa-chevron-down"></i></div> 
+	    <div id="contentUser">
+			<div><a href="myPage.mem">계정설정</a></div>	        	
+			<div><a href="javascript:logout()">로그아웃</a></div>	   
+	    </div>	
+		<a href="#"><div id="bell"><i class="fa-regular fa-bell" title="알림"></i></div></a>
+		<a href="#"><div id="store"><i class="fa-solid fa-cart-shopping" id="store" title="내상점"></i></div></a>
         </c:if>
     </div>
 </div>
 </header>
+

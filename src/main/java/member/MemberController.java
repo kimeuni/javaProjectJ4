@@ -88,6 +88,38 @@ public class MemberController extends HttpServlet{
 			commend.execute(request, response);
 			return;
 		}
+		// 임시 비밀번호 발급
+		else if(com.equals("/pwdFindOk")) {
+			commend = new PwdFindOkCommend();
+			commend.execute(request, response);
+			return;
+		}
+		// 유정 계정 설정 화면 이동 (header_hoem.jsp)
+		else if(com.equals("/myPage")) {
+			viewPage += "/myPage.jsp";
+		}
+		// 계정정보 비밀번호 변경 화면 이동
+		else if(com.equals("/pwdChange")) {
+			viewPage += "/pwdChange.jsp";
+		}
+		// 계정정보 비밀번호 변경 처리
+		else if(com.equals("/pwdChangeOk")) {
+			commend = new PwdChangeOkCommend();
+			commend.execute(request, response);
+			return;
+		}
+		// 계정정보 개인정보 변경 화면 및 로그인한 사람 값 가져가기
+		else if(com.equals("/infoChange")) {
+			commend = new InfoChangeCommend();
+			commend.execute(request, response);
+			viewPage += "/infoChange.jsp";
+		}
+		// 계정정보 개인정보 변경 하기 처리
+		else if(com.equals("/infoChangeOk")) {
+			commend = new InfoChangeOkCommend();
+			commend.execute(request, response);
+			return;
+		}
 		request.getRequestDispatcher(viewPage).forward(request, response);
 	}
 	
