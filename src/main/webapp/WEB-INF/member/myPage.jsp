@@ -63,6 +63,20 @@
         color: black;
     	}
     </style>
+    <script>
+    	'use strict'
+    	
+    	//탈퇴 신청
+    	function userDelCheck() {
+    		let ans1 = confirm("회원탈퇴 하시겠습니까?");
+    		if(ans1){
+    			let ans2 = confirm("정말로 탈퇴하시겠습니까? \n탈퇴후 30일간 동일한 아이디,이메일,닉네임 등이 사용 불가능합니다.")
+    			if(ans2){
+    				location.href="userDelCheck.mem";
+    			}
+    		}
+    	}
+    </script>
 </head>
 <body>
 	<div id="myPageBack">
@@ -76,7 +90,7 @@
 			<hr/>
 			<a href="infoChange.mem"><div class="divStyle">개인정보 변경</div></a>
 			<hr/>
-			<a href=""><div class="divStyle">탈퇴</div></a>
+			<a href="javascript:userDelCheck()"><div class="divStyle">탈퇴</div></a>
 			<hr/>
 		</div>
 	</div>

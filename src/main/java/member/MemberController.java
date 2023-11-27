@@ -120,6 +120,12 @@ public class MemberController extends HttpServlet{
 			commend.execute(request, response);
 			return;
 		}
+		// 계정정보 탈퇴 신청
+		else if(com.equals("/userDelCheck")) {
+			commend = new UserDelCheckCommend();
+			commend.execute(request, response);
+			viewPage = "/include/msg.jsp";
+		}
 		request.getRequestDispatcher(viewPage).forward(request, response);
 	}
 	

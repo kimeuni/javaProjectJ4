@@ -213,4 +213,18 @@ public class MemberJDAO {
 		}
 		return res;
 	}
+
+	// 탈퇴 신청 처리
+	public void setUserDelUpdate(String mid) {
+		try {
+			sql="update memberJ set userDel='Y' where mid=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(탈퇴 신청 처리)" + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+	}
 }
