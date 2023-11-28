@@ -19,8 +19,6 @@ public class InfoChangeOkCommend implements MemberInterface {
 		String email = request.getParameter("email")==null ? "" : request.getParameter("email");
 		String gender = request.getParameter("gender")==null ? "" : request.getParameter("gender");
 		
-		System.out.println(tel);
-		
 		HttpSession session = request.getSession();
 		String mid = (String)session.getAttribute("sMid");
 		
@@ -33,8 +31,6 @@ public class InfoChangeOkCommend implements MemberInterface {
 		vo.setTel(tel);
 		vo.setEmail(email);
 		vo.setGender(gender);
-		
-		System.out.println("vo"+vo);
 		
 		MemberJDAO dao = new MemberJDAO();
 		

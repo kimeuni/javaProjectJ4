@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<jsp:include page="/include/memberCheck.jsp"/>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
@@ -90,6 +91,8 @@
     <script>
     	'use strict'
     	// 닉네임 중복 확인
+    	let childWindow;
+    	
         function nickCheckOk() {
         	let url = "nickCheck.mem";
         	let winName = "닉네임 중복확인";
@@ -215,12 +218,10 @@
         		return false;
         	}
         	// 전화번호 정규식 확인
-        	else if(tel2.trim() != "" && tel3.trim() !=""){
-        		if(!regTel.test(tel2) || !regTel.test(tel3)){
-	        		alert("전화번호는 숫자로만 입력가능합니다.")
-	        		document.getElementById("tel2").focus();
-	        		return false;
-        		}
+        	else if(tel2.trim() != "" && tel3.trim() !="" && !regTel.test(tel2) || !regTel.test(tel3)){
+        		alert("전화번호는 숫자로만 입력가능합니다.")
+        		document.getElementById("tel2").focus();
+        		return false;
         	}
         	// 이메일 공백확인
         	else if(email.trim() == ""){

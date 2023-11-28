@@ -245,7 +245,7 @@
         		return false;
         	}
         	// 전화번호 정규식 확인
-        	else if(tel2.trim() != "" && tel3.trim() !=""){
+        	else if(tel2.trim() != "" && tel3.trim() !="" && !regTel.test(tel2) || !regTel.test(tel3)){
         		if(!regTel.test(tel2) || !regTel.test(tel3)){
 	        		alert("전화번호는 숫자로만 입력가능합니다.")
 	        		document.getElementById("tel2").focus();

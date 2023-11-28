@@ -1,16 +1,5 @@
-<%@page import="SaleBoard.MajorCategoryVO"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="SaleBoard.SaleBoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-	SaleBoardDAO dao = new SaleBoardDAO();
-	
-	//대분류 가져오기
-	ArrayList<MajorCategoryVO> majVOS = dao.setMajorList();
-	
-	pageContext.setAttribute("majVOS", majVOS);
-%>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 <!-- 폰트어썸 -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
@@ -170,12 +159,12 @@
     
     
    
-    #categoryDiv{
+     #categoryDiv{
     	margin: 0 auto;
         width: 1100px;
         position: relative;
     }
-    #majorCategory{
+    #saleCategory{
     	position: absolute;
     	left: 3%;
     	background-color: #fff;
@@ -185,7 +174,7 @@
     #inCategoryStr{
     	padding: 10px 10px 0px 10px;
     	text-align:left;
-    	font-size : 20px;
+    	font-size : 18px;
     }
     .inCategory{
     	padding: 3px 10px;
@@ -196,7 +185,6 @@
 		background-color: skyblue;
 		color : #fff;
     }
-    
 </style>
 <script>
     'use strict';
@@ -214,33 +202,28 @@
 		$("#user").mouseenter(function(){
 	   		$("#contentUser").show();
 		});
-    });
-    $(function() {
 		$("#contentUser").mouseleave (function(){
 	   		$("#contentUser").hide();
 		});
     });
+
+    
     
     // 알림
     
     
-    
-    
-    // 카테고리
+    //카테고리
     $(function() {
-   		$("#categoryDiv").hide();
+    	$("#categoryDiv").hide();
     });
     $(function() {
 		$("#nav").mouseenter(function(){
 	   		$("#categoryDiv").show();
 		});
-    });
-    $(function() {
 		$("#categoryDiv").mouseleave (function(){
 	   		$("#categoryDiv").hide();
 		});
     });
-    
 </script>
 <div id="topH">
 	<header style="z-index: 0">
@@ -270,7 +253,7 @@
 		        <i class="fa-solid fa-bars" id="category"></i>
 		    </div>
 		    <div id="Mysell">
-		        <a href="" style="padding: 0px 20px ;" title="판매"><i class="fa-solid fa-sack-dollar" id="sell"> 판매</i></a>
+		        <a href="saleupdate.sa" style="padding: 0px 20px ;" title="판매"><i class="fa-solid fa-sack-dollar" id="sell"> 판매</i></a>
 		    </div>
 		    <div id="myChat">
 		        <a href="" style="padding: 0px 20px;" title="채팅"><i class="fa-solid fa-comment" id="chat"> 채팅</i></a>
@@ -285,14 +268,34 @@
 			<a href="javascript:logout()" class="userA">로그아웃</a>   
 	    </div>	
     </div>
-    <!-- 카테고리 -->
+    <!-- 카테고리 메뉴 -->
 	<div id="categoryDiv">
-		<div id="majorCategory">
-			<div id="inCategoryStr">대분류</div>
+		<div id="saleCategory">
+			<div id="inCategoryStr">카테고리</div>
 			<hr/>
-			<c:forEach var="majVO" items="${majVOS}" varStatus="st">
-				<a href="majorCategoryOk.sa?idx=${majVO.idx}"><div class="inCategory">${majVO.majorCategory}</div></a>
-			</c:forEach>
+			<a href="saleCategoryOk.sa?category=여성의류"><div class="inCategory">여성의류</div></a>
+			<a href="saleCategoryOk.sa?category=남성의류"><div class="inCategory">남성의류</div></a>
+			<a href="saleCategoryOk.sa?category=신발"><div class="inCategory">신발</div></a>
+			<a href="saleCategoryOk.sa?category=가방/지갑"><div class="inCategory">가방/지갑</div></a>
+			<a href="saleCategoryOk.sa?category=시계"><div class="inCategory">시계</div></a>
+			<a href="saleCategoryOk.sa?category=쥬얼리"><div class="inCategory">쥬얼리</div></a>
+			<a href="saleCategoryOk.sa?category=패션 액세서리"><div class="inCategory">패션 액세서리</div></a>
+			<a href="saleCategoryOk.sa?category=디지털"><div class="inCategory">디지털</div></a>
+			<a href="saleCategoryOk.sa?category=가전제품"><div class="inCategory">가전제품</div></a>
+			<a href="saleCategoryOk.sa?category=스포츠/레저"><div class="inCategory">스포츠/레저</div></a>
+			<a href="saleCategoryOk.sa?category=차량/오토바이"><div class="inCategory">차량/오토바이</div></a>
+			<a href="saleCategoryOk.sa?category=스타굿즈"><div class="inCategory">스타굿즈</div></a>
+			<a href="saleCategoryOk.sa?category=키덜트"><div class="inCategory">키덜트</div></a>
+			<a href="saleCategoryOk.sa?category=예술/희귀/수집품"><div class="inCategory">예술/희귀/수집품</div></a>
+			<a href="saleCategoryOk.sa?category=음반/악기"><div class="inCategory">음반/악기</div></a>
+			<a href="saleCategoryOk.sa?category=도서/티켓/문구"><div class="inCategory">도서/티켓/문구</div></a>
+			<a href="saleCategoryOk.sa?category=뷰티/미용"><div class="inCategory">뷰티/미용</div></a>
+			<a href="saleCategoryOk.sa?category=가구/인테리어"><div class="inCategory">가구/인테리어</div></a>
+			<a href="saleCategoryOk.sa?category=생활/주방용품"><div class="inCategory">생활/주방용품</div></a>
+			<a href="saleCategoryOk.sa?category=공구/산업용품"><div class="inCategory">공구/산업용품</div></a>
+			<a href="saleCategoryOk.sa?category=식품"><div class="inCategory">식품</div></a>
+			<a href="saleCategoryOk.sa?category=반려동물용품"><div class="inCategory">반려동물용품</div></a>
+			<a href="saleCategoryOk.sa?category=기타"><div class="inCategory">기타</div></a>
 		</div>
 	</div>
 </div>
