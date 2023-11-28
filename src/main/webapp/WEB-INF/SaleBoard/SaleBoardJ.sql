@@ -19,3 +19,5 @@ create table saleBoardJ (
 );
 
 drop table saleBoardJ;
+
+select *,timestampDiff(hour,uploadDate,now()) as hour_diff, dateDiff(uploadDate,now()) as date_diff from saleBoardJ order by uploadDate limit 0,30

@@ -178,7 +178,7 @@
 				<label>상품명 <span id="pilsu">*</span></label>
 			</div>
 			<div class="rightDiv" >
-				<input type="text" name="title" id="title"  placeholder="상품명을 입력해주세요."/>
+				<input type="text" name="title" id="title" maxlength="20" placeholder="상품명을 입력해주세요."/>
 			</div>
 			<hr style="clear: both"/>
 			<div class="leftDiv" >
@@ -217,7 +217,7 @@
 				<label>금액 <span id="pilsu">*</span></label>
 			</div>
 			<div class="rightDiv" >
-				<input type="text" name="money" id="money" placeholder="금액을 입력해주세요."/>
+				<input type="text" name="money" maxlength="7" id="money" placeholder="금액을 입력해주세요.(최대 9,999,999원)"/>
 			</div>
 			<hr style="clear: both"/>
 			<div class="leftDiv" >
@@ -228,7 +228,7 @@
 			</div>
 			<hr id="hrStyle"/>
 			<div style="text-align: right; margin-bottom: 10px">
-				<span style="padding-right: 20px; "><a href="#" class="btn btn-secondary">취소하기</a></span>
+				<span style="padding-right: 20px; "><a href="main.ad" class="btn btn-secondary">취소하기</a></span>
 				<span style="padding-right: 20px; "><a href="javascript:saleUpdateOk()" class="btn btn-primary">등록하기</a></span>
 			</div>
 			<input type="hidden" name="fileSize"/>

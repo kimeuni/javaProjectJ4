@@ -29,6 +29,12 @@ public class SaleBoardController extends HttpServlet{
 			command.execute(request, response);
 			viewPage = "/include/msg.jsp";
 		}
+		// 올라온 판매 게시글 상세보기
+		else if(com.equals("/saleContent")) {
+			command = new SaleContentCommand();
+			command.execute(request, response);
+			viewPage += "/saleContent.jsp";
+		}
 		request.getRequestDispatcher(viewPage).forward(request, response);
 	}
 }

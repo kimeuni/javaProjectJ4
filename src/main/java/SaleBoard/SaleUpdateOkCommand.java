@@ -34,12 +34,9 @@ public class SaleUpdateOkCommand implements SaleBoardInterface {
 			originalFileName = multipartRequest.getOriginalFileName(file);
 			filesystemName = multipartRequest.getFilesystemName(file);
 			
-			System.out.println("원본 파일명 : " + originalFileName);
-			System.out.println("서버에 저장된 파일명 : " + filesystemName);
 		}
 		// "/" 넣은거 빼기
-		originalFileName = originalFileName.substring(0, originalFileName.length()-1); //원본파일이름
-		filesystemName = filesystemName.substring(0, filesystemName.length()-1);	// 파일에 저장된 이름
+		//filesystemName = filesystemName.substring(0, filesystemName.length()-1);	// 파일에 저장된 이름
 		
 		// request가 아닌, multipartRequest로 적어주어야 넘긴 값을 받을 수 있음 (enctype="multipart/form-data" 이걸 사용하여 request로 적으면 값을 가져올 수 없음.)
 		int fileSize = multipartRequest.getParameter("fileSize")== null ? 0 : Integer.parseInt(multipartRequest.getParameter("fileSize"));
@@ -53,33 +50,42 @@ public class SaleUpdateOkCommand implements SaleBoardInterface {
 		String mid = (String)session.getAttribute("sMid");
 		
 		// Back End 체크... 
-		
-		
-		SaleBoardDAO dao = new SaleBoardDAO();
-		
-		//vo에 가져온 값 담기
-		SaleBoardVO vo = new SaleBoardVO();
-		vo.setfName(originalFileName);
-		vo.setfSName(filesystemName);
-		vo.setfSize(fileSize);
-		vo.setTitle(title);
-		vo.setMoney(money);
-		vo.setContent(content);
-		vo.setMid(mid);
-		vo.setCategory(categorys);
-		
-		// 게시글 DB에 저장
-		int res = dao.setSaleUpdateOk(vo);
-		
-		if(res != 0) {
-			request.setAttribute("msg", "게시물이 등록되었습니다.");
-			request.setAttribute("url", "main.ad");
-		}
-		else {
+		if(title.equals("") || title.length() > 20) {
 			request.setAttribute("msg", "게시물 등록에 실패하였습니다.");
 			request.setAttribute("url", "saleupdate.sa");
-			
 		}
-		
+		else if(categorys.equals("")) {
+			request.setAttribute("msg", "게시물 등록에 실패하였습니다.");
+			request.setAttribute("url", "saleupdate.sa");
+		}
+		else if(content.equals("")) {
+			request.setAttribute("msg", "게시물 등록에 실패하였습니다.");
+			request.setAttribute("url", "saleupdate.sa");
+		}
+		else {
+			SaleBoardDAO dao = new SaleBoardDAO();
+			
+			//vo에 가져온 값 담기
+			SaleBoardVO vo = new SaleBoardVO();
+			vo.setfSName(filesystemName);
+			vo.setfSize(fileSize);
+			vo.setTitle(title);
+			vo.setMoney(money);
+			vo.setContent(content);
+			vo.setMid(mid);
+			vo.setCategory(categorys);
+			
+			// 게시글 DB에 저장
+			int res = dao.setSaleUpdateOk(vo);
+			
+			if(res != 0) {
+				request.setAttribute("msg", "게시물이 등록되었습니다.");
+				request.setAttribute("url", "main.ad");
+			}
+			else {
+				request.setAttribute("msg", "게시물 등록에 실패하였습니다.");
+				request.setAttribute("url", "saleupdate.sa");
+			}
+		}
 	}
 }
