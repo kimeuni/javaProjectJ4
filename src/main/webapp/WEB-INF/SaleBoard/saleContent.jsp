@@ -275,7 +275,7 @@
 				<h3 style="margin: 20px 10px">상점 정보</h3>
 				<hr/>
 				<!-- 게시물 등록한 해당 유저의 상점으로 들어가기 -->
-				<a href="myStoreSale.sa?mid=${sMid}"><div style="padding: 10px;">
+				<a href="myStoreSale.sa?mid=${vo.mid}"><div style="padding: 10px;">
 					<div style="float: left; width: 60px;"><img src="${ctp}/images/${mVO.profile}" style="width: 60px; border-radius: 100%; border:1px solid pink;"/></div>
 					<div style="float: left; width: 170px; padding: 10px;">
 						${mVO.nickName} 님 <br/>
@@ -325,7 +325,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- 세션 아이디 값 있는지 체크하기 위해 -->
+	<!-- 세션 아이디 값 있는지 체크하기 위해(신고에서 사용) -->
 	<input type="hidden" value="${sMid}" name="sMid" id="sMid">
 <jsp:include page="/include/footer.jsp"/>
 </body>

@@ -385,4 +385,24 @@ public class SaleBoardDAO {
 		return vos;
 	}
 	
+	// mid에 해당하는  유저가 사용한 카테고리
+	public String getUserUseCategory(String mid) {
+		String str = "";
+		try {
+			sql="select category from saleBoardJ where mid=? group by category";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				str += rs.getString("category") + "-";
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(현재 로그인한 사람의 찜 목록 게시글 리스트)" + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return str.substring(0,str.length()-1);
+	}
+	
 }
