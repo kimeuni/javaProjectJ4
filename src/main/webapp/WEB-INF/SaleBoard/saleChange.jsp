@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>중고 상품 등록</title>
+    <title>중고 상품 등록 수정</title>
     <jsp:include page="/include/bs4.jsp"/>
     <style>
     	#saleUpdateMain{
@@ -59,20 +59,17 @@
     	
     	
     	
-    	function saleUpdateOk(){
+    	function saleChangeOk(){
 			let fName = $("#fName").val();
 			let title = $("#title").val();
 			let categorys = $("#categorys").val();
 			let money =$("#money").val();
 			let content = $("#content").val();
+			let photo = $("#photo").val();
 			let fileSize = 0;
 			
 			
-			if(fName.trim() == ""){
-				alert("상품 이미지를 등록해주세요.")
-				return false
-			}
-			else if(title.trim() == ""){
+			if(title.trim() == ""){
 				alert("상품명을 작성해주세요.")
 				$("#title").focus();
 				return false
@@ -158,20 +155,20 @@
 <body>
 <jsp:include page="/include/header.jsp"/>
 	<div id="saleUpdateMain">
-		<div class="leftDiv">
-			<h2>기본정보</h2>
+		<div class="leftDiv" style="width: 220px;">
+			<h2>기본정보 수정</h2>
 		</div>
 		<div class="rightDiv" style="height: 98px; line-height: 70px "> 
 			<span id="pilsu">*은 필수항목</span>
 		</div>
-		<form name="saleForm" method="post" action="saleUpdateOk.sa" enctype="multipart/form-data">
+		<form name="saleForm" method="post" action="saleChangeOk.sa" enctype="multipart/form-data">
 			<hr id="hrStyle"/>
 			<div class="leftDiv" style="height: 150px;" >
 				<label>상품이미지 <span id="pilsu">*</span></label>
 			</div>
 			<div class="rightDiv insert" style="height: 150px;">
 				<input type="file" name="fName" id="fName" class="mb-3"/>
-				<div class="demo" id="demo2"></div>
+				<div class="demo" id="demo2"><img src="${ctp}/images/sale/${vo.fSName}" width="90px"/></div>
 				<!-- <img id="demo2" class="demo" width="80px" class="mt-3"/> -->
 			</div>
 			<hr style="clear: both"/>
@@ -179,7 +176,7 @@
 				<label>상품명 <span id="pilsu">*</span></label>
 			</div>
 			<div class="rightDiv" >
-				<input type="text" name="title" id="title" maxlength="20" placeholder="상품명을 입력해주세요."/>
+				<input type="text" name="title" id="title" value="${vo.title}" maxlength="20" placeholder="상품명을 입력해주세요."/>
 			</div>
 			<hr style="clear: both"/>
 			<div class="leftDiv" >
@@ -187,30 +184,30 @@
 			</div>
 			<div class="rightDiv" >
 				<select name="categorys" id="categorys">
-					<option value="">카테고리 선택</option>
-					<option value="여성의류">여성의류</option>
-					<option value="남성의류">남성의류</option>
-					<option value="신발">신발</option>
-					<option value="가방/지갑">가방/지갑</option>
-					<option value="시계">시계</option>
-					<option value="쥬얼리">쥬얼리</option>
-					<option value="패션 액세서리">패션 액세서리</option>
-					<option value="디지털">디지털</option>
-					<option value="가전제품">가전제품</option>
-					<option value="스포츠/레저">스포츠/레저</option>
-					<option value="차량/오토바이">차량/오토바이</option>
-					<option value="스타굿즈">스타굿즈</option>
-					<option value="키덜트">키덜트</option>
-					<option value="예술/희귀/수집품">예술/희귀/수집품</option>
-					<option value="음반/악기">음반/악기</option>
-					<option value="도서/티켓/문구">도서/티켓/문구</option>
-					<option value="뷰티/미용">뷰티/미용</option>
-					<option value="가구/인테리어">가구/인테리어</option>
-					<option value="생활/주방용품">생활/주방용품</option>
-					<option value="공구/산업용품">공구/산업용품</option>
-					<option value="식품">식품</option>
-					<option value="반려동물용품">반려동물용품</option>
-					<option value="기타">기타</option>
+					<option value="" ${vo.category=='' ? 'selected' : '' }>카테고리 선택</option>
+					<option value="여성의류" ${vo.category=='여성의류' ? 'selected' : '' }>여성의류</option>
+					<option value="남성의류" ${vo.category=='남성의류' ? 'selected' : '' }>남성의류</option>
+					<option value="신발" ${vo.category=='신발' ? 'selected' : '' }>신발</option>
+					<option value="가방/지갑" ${vo.category=='가방/지갑' ? 'selected' : '' }>가방/지갑</option>
+					<option value="시계" ${vo.category=='시계' ? 'selected' : '' }>시계</option>
+					<option value="쥬얼리" ${vo.category=='쥬얼리' ? 'selected' : '' }>쥬얼리</option>
+					<option value="패션 액세서리" ${vo.category=='패션 액세서리' ? 'selected' : '' }>패션 액세서리</option>
+					<option value="디지털" ${vo.category=='디지털' ? 'selected' : '' }>디지털</option>
+					<option value="가전제품" ${vo.category=='가전제품' ? 'selected' : '' }>가전제품</option>
+					<option value="스포츠/레저" ${vo.category=='스포츠/레저' ? 'selected' : '' }>스포츠/레저</option>
+					<option value="차량/오토바이" ${vo.category=='차량/오토바이' ? 'selected' : '' }>차량/오토바이</option>
+					<option value="스타굿즈" ${vo.category=='스타굿즈' ? 'selected' : '' }>스타굿즈</option>
+					<option value="키덜트" ${vo.category=='키덜트' ? 'selected' : '' }>키덜트</option>
+					<option value="예술/희귀/수집품" ${vo.category=='예술/희귀/수집품' ? 'selected' : '' }>예술/희귀/수집품</option>
+					<option value="음반/악기" ${vo.category=='음반/악기' ? 'selected' : '' }>음반/악기</option>
+					<option value="도서/티켓/문구" ${vo.category=='도서/티켓/문구' ? 'selected' : '' }>도서/티켓/문구</option>
+					<option value="뷰티/미용" ${vo.category=='뷰티/미용' ? 'selected' : '' }>뷰티/미용</option>
+					<option value="가구/인테리어" ${vo.category=='가구/인테리어' ? 'selected' : '' }>가구/인테리어</option>
+					<option value="생활/주방용품" ${vo.category=='생활/주방용품' ? 'selected' : '' }>생활/주방용품</option>
+					<option value="공구/산업용품" ${vo.category=='공구/산업용품' ? 'selected' : '' }>공구/산업용품</option>
+					<option value="식품" ${vo.category=='식품' ? 'selected' : '' }>식품</option>
+					<option value="반려동물용품" ${vo.category=='반려동물용품' ? 'selected' : '' }>반려동물용품</option>
+					<option value="기타" ${vo.category=='기타' ? 'selected' : '' }>기타</option>
 				</select>
 			</div>
 			<hr style="clear: both"/>
@@ -218,22 +215,27 @@
 				<label>금액 <span id="pilsu">*</span></label>
 			</div>
 			<div class="rightDiv" >
-				<input type="text" name="money" maxlength="7" id="money" placeholder="금액을 입력해주세요.(최대 9,999,999원)"/>
+				<input type="text" name="money" value="${vo.money}" maxlength="7" id="money" placeholder="금액을 입력해주세요.(최대 9,999,999원)"/>
 			</div>
 			<hr style="clear: both"/>
 			<div class="leftDiv" >
 				<label>설명 <span id="pilsu">*</span></label>
 			</div>
 			<div class="rightDiv" >
-				<textarea rows="6" class="form-control" name="content" id="content" style="resize :none; width: 600px; margin-bottom: 10px" placeholder="상세설명을 입력해주세요."></textarea>
+				<textarea rows="6" class="form-control" name="content" id="content" style="resize :none; width: 600px; margin-bottom: 10px" placeholder="상세설명을 입력해주세요.">${vo.content}</textarea>
 			</div>
 			<hr id="hrStyle"/>
 			<div style="text-align: right; margin-bottom: 10px">
-				<span style="padding-right: 20px; "><a href="main.ad" class="btn btn-secondary">취소하기</a></span>
-				<span style="padding-right: 20px; "><a href="javascript:saleUpdateOk()" class="btn btn-primary">등록하기</a></span>
+				<span style="padding-right: 20px; "><a href="#" class="btn btn-secondary">취소하기</a></span>
+				<span style="padding-right: 20px; "><a href="javascript:saleChangeOk()" class="btn btn-primary">수정하기</a></span>
 			</div>
 			<input type="hidden" name="fileSize"/>
 			<input type="hidden" name="imgSource"/>
+			<!-- 이미지 수정 안했을 시 기존에 있던 값을 넘기기 위해 hidden으로 넘김. -->
+			<input type="hidden" name="photo" value="${vo.fSName}"/>
+			<input type="hidden" name="fSizeed" value="${vo.fSize}"/>
+			<!-- 화면으로 돌아가기 위해서 게시물의 idx값을 넘김 -->
+			<input type="hidden" name="idx" value="${vo.idx}"/>
 		</form>
 	</div>
 <jsp:include page="/include/footer.jsp"/>

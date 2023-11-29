@@ -72,7 +72,8 @@
         function loginOk() {
         	let mid = document.getElementById("mid").value;
         	let pwd = document.getElementById("pwd").value;
-        	let idCheck = document.getElementById("idCheck").value;
+        	let idCheck;
+        	if(document.getElementsByName("idCheck")[0].checked) idCheck = "save";   
         	
         	//아이디 공백확인
         	if(mid.trim() == ""){
@@ -142,7 +143,7 @@
         <input type="text" name="mid" id="mid" required autofocus placeholder="아이디 입력" value="${cMid}" style="text-align: left;" />
         <!-- 쿠키에 값이 있으면 자동으로 체크가 되도록함. -->
         <c:if test="${cMid != null}"><input type="checkbox" name="idCheck" id="idCheck" value="save" checked /><label for="idCheck"><span style="color: gray;">ID저장</span></label></c:if>
-        <c:if test="${cMid == null}"><input type="checkbox" name="idCheck" id="idCheck" value="save" /><label for="idCheck"><span style="color: gray;">ID저장</span></label></c:if>
+        <c:if test="${cMid == null}"><input type="checkbox" name="idCheck" id="idCheck" value="save"/><label for="idCheck"><span style="color: gray;">ID저장</span></label></c:if>
     </div>
     <div class="loginStyle">
         <input type="password" name="pwd" id="pwd" required placeholder="비밀번호 입력" style="text-align: left;"/>

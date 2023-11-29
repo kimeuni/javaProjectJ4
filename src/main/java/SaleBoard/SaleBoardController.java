@@ -35,6 +35,48 @@ public class SaleBoardController extends HttpServlet{
 			command.execute(request, response);
 			viewPage += "/saleContent.jsp";
 		}
+		// 판매 게시글 삭제
+		else if(com.equals("/deleteSale")) {
+			command = new DeleteSaleCommand();
+			command.execute(request, response);
+			viewPage = "/include/msg.jsp";
+		}
+		// 판매 게시글 찜하기
+		else if(com.equals("/likeCheck")) {
+			command = new LikeCheckCommand();
+			command.execute(request, response);
+			return;
+		}
+		// 판매 게시글 찜취소 하기
+		else if(com.equals("/likeDelete")) {
+			command = new LikeDeleteCommand();
+			command.execute(request, response);
+			return;
+		}
+		// 판매 게시글 신고하기
+		else if(com.equals("/report")) {
+			command = new ReportCommand();
+			command.execute(request, response);
+			return;
+		}
+		// 판매 게시글 수정하기 화면 이동
+		else if(com.equals("/saleChange")) {
+			command = new SaleChangeCommand();
+			command.execute(request, response);
+			viewPage += "/saleChange.jsp";
+		}
+		// 판매 게시글 수정하기 처리
+		else if(com.equals("/saleChangeOk")) {
+			command = new SaleChangeOkCommand();
+			command.execute(request, response);
+			viewPage = "/include/msg.jsp";
+		}
+		// 내 상점 (상품) 부분 들어가기
+		else if(com.equals("/myStoreSale")) {
+			command = new MyStoreSaleCommand();
+			command.execute(request, response);
+			viewPage += "/myStoreSale.jsp";
+		}
 		request.getRequestDispatcher(viewPage).forward(request, response);
 	}
 }

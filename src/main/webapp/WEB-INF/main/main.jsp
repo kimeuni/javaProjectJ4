@@ -30,6 +30,15 @@
     	#topBtn:hover{
 			cursor: pointer;
 		}
+		#likeDiv{
+			position: fixed;
+			width: 120px;
+			min-height: 300px;
+			border: 1px solid gray;
+			background-color: #fff;
+			top: 200px;
+			right: 200px;
+		}
     </style>
     <script>
     	'use strict'
@@ -77,6 +86,20 @@
 <!-- 누르면 맨 위로 올라가는 자동 스크롤 -->
 <div>
 	<h6 id="topBtn" class="text-right"><i class='far fa-arrow-alt-circle-up' style='font-size:36px'></i></h6>
+</div>
+<div id="likeDiv">
+	<!-- 찜 목록 클릭시 전체 찜목록으로 이동(내가 찜한 것만) -->
+	<a href="">
+		<h6 style="text-align: center">찜 목록</h6>
+		<div style="text-align: center"><i class="fa-solid fa-heart" style="color:red"></i>${likeSize}</div>
+	</a>
+	<hr/>
+	<c:forEach var="saVO" items="${saVOS}" begin="0" end="3">
+		<a href="saleContent.sa?idx=${saVO.idx}" style="text-align: center">
+			<div><img src="${ctp}/images/sale/${saVO.fSName}" width="100px"/></div>
+			<div style="text-align: center; margin-bottom: 3px;">${saVO.money}원</div>
+		</a>
+	</c:forEach>
 </div>
 <jsp:include page="/include/footer.jsp"/>
 </body>

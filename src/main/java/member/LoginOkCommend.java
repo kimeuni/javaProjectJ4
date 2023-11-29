@@ -38,7 +38,6 @@ public class LoginOkCommend implements MemberInterface {
 			res = "2";
 		}
 		else {
-			
 			// 1. 세션 저장
 			HttpSession session = request.getSession();
 			session.setAttribute("sMid", mid);
