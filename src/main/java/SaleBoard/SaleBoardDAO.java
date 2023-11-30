@@ -441,11 +441,17 @@ public class SaleBoardDAO {
 	public ArrayList<SaleBoardVO> getCategoryList(String category, String mid, int startIndexNo, int pageSize) {
 		ArrayList<SaleBoardVO> vos = new ArrayList<SaleBoardVO>();
 		try {
-			if(startIndexNo == 0 && pageSize == 0) {
+			if(startIndexNo == 0 && pageSize == 0 && !mid.equals("")) {
 				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where category=? and mid=? order by uploadDate desc";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, category);
 				pstmt.setString(2, mid);
+			}
+			//메인 카테고리 클릭 시 사용
+			else if(startIndexNo == 0 && pageSize == 0 && mid.equals("")) {
+				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where category=? order by uploadDate desc";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, category);
 			}
 			else {
 				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where category=? and mid=? order by uploadDate desc limit ?,?";
@@ -585,11 +591,17 @@ public class SaleBoardDAO {
 	public ArrayList<SaleBoardVO> getmyStoreSearchList(String search, String mid, int startIndexNo, int pageSize) {
 		ArrayList<SaleBoardVO> vos = new ArrayList<SaleBoardVO>();
 		try {
-			if(startIndexNo == 0 && pageSize == 0) {
+			if(startIndexNo == 0 && pageSize == 0 && !mid.equals("")) {
 				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where title like ? and mid=? order by uploadDate desc";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, "%"+search+"%");
 				pstmt.setString(2, mid);
+			}
+			//메인 검색에서 사용
+			else if(startIndexNo == 0 && pageSize == 0 && mid.equals("")) {
+				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where title like ? order by uploadDate desc";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%"+search+"%");
 			}
 			else {
 				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where title like ? and mid=? order by uploadDate desc limit ?,?";

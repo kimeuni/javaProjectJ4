@@ -25,6 +25,18 @@ public class adminController extends HttpServlet{
 			command.execute(request, response);
 			viewPage = "/WEB-INF/main/main.jsp";
 		}
+		// 메인화면에서 검색 처리
+		else if(com.equals("/mainSearch")) {
+			command = new MainSearchCommand();
+			command.execute(request, response);
+			viewPage = "/WEB-INF/main/mainSearch.jsp";
+		}
+		// 메인화면에서 카테고리 클릭 시 처리
+		else if(com.equals("/mainCategoryOk")) {
+			command = new MainCategoryOkCommand();
+			command.execute(request, response);
+			viewPage = "/WEB-INF/main/mainCategoryOk.jsp";
+		}
 		request.getRequestDispatcher(viewPage).forward(request, response);
 	}
 }

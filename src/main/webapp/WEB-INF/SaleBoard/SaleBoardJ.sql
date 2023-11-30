@@ -24,6 +24,7 @@ drop table saleBoardJ;
 
 select *,timestampDiff(hour,uploadDate,now()) as hour_diff, dateDiff(uploadDate,now()) as date_diff from saleBoardJ order by uploadDate limit 0,30
 select category from saleBoardJ where mid='admin' group by category ;
+select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where category='키덜트' order by uploadDate desc
 
 -- 판매 게시글 찜
 create table likeJ (

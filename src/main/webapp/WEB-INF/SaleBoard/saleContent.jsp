@@ -252,6 +252,16 @@
 			}
 		}
     	
+		//채팅하기
+		function chatGroup(saleBoardIdx,saleMid,myMid){
+			if(myMid.trim() == ""){
+				alert("로그인 후 이용 가능합니다.");
+				location.href="login.mem";
+			}
+			else {
+				location.href='chatGroup.cht?saleBoardIdx='+saleBoardIdx+'&saleMid='+saleMid+'&myMid='+myMid
+			}
+		}
     </script>
 </head>
 <body>
@@ -269,7 +279,7 @@
 				<div style="font-size:2em;">
 					${vo.title}
 				</div>
-				<div style="color: red;font-size: 0.8em">(${vo.state})</div>
+				<c:if test="${vo.state != '판매중' }"><div style="color: red;font-size: 0.8em">(${vo.state})</div></c:if>
 				<div style="margin: 5px 0px"><span style="font-size:2em; font-weight: bolder;">${vo.money}</span><span style="font-size:1.6em">원</span></div>
 				<hr/>
 				<div style="margin-bottom: 80px;">
@@ -289,7 +299,7 @@
 						<!-- 찜 했을 때 -->
 						<%-- ${sMid} / ${likeVO.likeMid} / ${likeVO.likeYN} / ${vo.idx} / ${likeVO.saleBoardIdx} --%>
 						<c:if test="${sMid == likeVO.likeMid && likeVO.likeYN == 'Y'}"><button name="likes" id="likes" onclick="likesDelete('${sMid}','${vo.idx}')" style="background-color: #E54090"><i class="fa-regular fa-heart" style="color:red"></i>찜취소</button></c:if>
-						<button name="chatting" id="chatting" onclick="location.href='chatGroup.cht?saleBoardIdx=${vo.idx}&saleMid=${vo.mid}&myMid=${sMid}'"><i class="fa-regular fa-comments"></i>채팅하기</button>
+						<button name="chatting" id="chatting" onclick="chatGroup('${vo.idx}','${vo.mid}','${sMid}')"><i class="fa-regular fa-comments"></i>채팅하기</button>
 						<button name="report" id="report" onclick="cpCheck()"><i class="fa-solid fa-triangle-exclamation"></i>신고하기</button>
 					</c:if>
 				</div>

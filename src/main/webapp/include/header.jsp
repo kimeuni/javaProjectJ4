@@ -207,7 +207,26 @@
 		});
     });
 
-    
+    //검색
+    function mainSearch(){
+    	let search = $("#searchN").val();
+    	
+    	if(search.trim() == ""){
+    		alert("검색할 상품명을 입력해주세요.")
+    		$("#searchN").focus();
+    		return false;
+    	}
+    	else {
+    		location.href="mainSearch.ad?search="+search;
+    	}
+    }
+    $(function() {
+    	$("#searchN").on("keydown", function(e) {
+    		if(e.keyCode == 13){
+    			mainSearch();
+    		}
+    	});
+    });
     
     // 알림
     
@@ -233,8 +252,8 @@
 	            <a href="http://localhost:9090/JavaProjectJ4/"><div id="logo2"><i class="fa-solid fa-box"></i> 중고모아</div></a>
 	        </div>
 	        <div id="searchDivN">
-	            <input type="text" name="searchN" id="searchN" placeholder="상품 검색" />
-	            <a href="" style="padding: 10px;"><i class="fa-solid fa-magnifying-glass" ></i></a>
+	            <input type="text" name="searchN" id="searchN" value="${search}" placeholder="상품 검색" />
+	            <a href="javascript:mainSearch()" style="padding: 10px;"><i class="fa-solid fa-magnifying-glass" ></i></a>
 	        </div>
 	        <!-- 로그인 안했을 시 -->
 	        <c:if test="${sMid == null }"><div id="login"><a href="login.mem">로그인/회원가입</a></div></c:if>
@@ -273,29 +292,29 @@
 		<div id="saleCategory">
 			<div id="inCategoryStr">카테고리</div>
 			<hr/>
-			<a href="saleCategoryOk.sa?category=여성의류"><div class="inCategory">여성의류</div></a>
-			<a href="saleCategoryOk.sa?category=남성의류"><div class="inCategory">남성의류</div></a>
-			<a href="saleCategoryOk.sa?category=신발"><div class="inCategory">신발</div></a>
-			<a href="saleCategoryOk.sa?category=가방/지갑"><div class="inCategory">가방/지갑</div></a>
-			<a href="saleCategoryOk.sa?category=시계"><div class="inCategory">시계</div></a>
-			<a href="saleCategoryOk.sa?category=쥬얼리"><div class="inCategory">쥬얼리</div></a>
-			<a href="saleCategoryOk.sa?category=패션 액세서리"><div class="inCategory">패션 액세서리</div></a>
-			<a href="saleCategoryOk.sa?category=디지털"><div class="inCategory">디지털</div></a>
-			<a href="saleCategoryOk.sa?category=가전제품"><div class="inCategory">가전제품</div></a>
-			<a href="saleCategoryOk.sa?category=스포츠/레저"><div class="inCategory">스포츠/레저</div></a>
-			<a href="saleCategoryOk.sa?category=차량/오토바이"><div class="inCategory">차량/오토바이</div></a>
-			<a href="saleCategoryOk.sa?category=스타굿즈"><div class="inCategory">스타굿즈</div></a>
-			<a href="saleCategoryOk.sa?category=키덜트"><div class="inCategory">키덜트</div></a>
-			<a href="saleCategoryOk.sa?category=예술/희귀/수집품"><div class="inCategory">예술/희귀/수집품</div></a>
-			<a href="saleCategoryOk.sa?category=음반/악기"><div class="inCategory">음반/악기</div></a>
-			<a href="saleCategoryOk.sa?category=도서/티켓/문구"><div class="inCategory">도서/티켓/문구</div></a>
-			<a href="saleCategoryOk.sa?category=뷰티/미용"><div class="inCategory">뷰티/미용</div></a>
-			<a href="saleCategoryOk.sa?category=가구/인테리어"><div class="inCategory">가구/인테리어</div></a>
-			<a href="saleCategoryOk.sa?category=생활/주방용품"><div class="inCategory">생활/주방용품</div></a>
-			<a href="saleCategoryOk.sa?category=공구/산업용품"><div class="inCategory">공구/산업용품</div></a>
-			<a href="saleCategoryOk.sa?category=식품"><div class="inCategory">식품</div></a>
-			<a href="saleCategoryOk.sa?category=반려동물용품"><div class="inCategory">반려동물용품</div></a>
-			<a href="saleCategoryOk.sa?category=기타"><div class="inCategory">기타</div></a>
+			<a href="mainCategoryOk.ad?category=여성의류"><div class="inCategory">여성의류</div></a>
+			<a href="mainCategoryOk.ad?category=남성의류"><div class="inCategory">남성의류</div></a>
+			<a href="mainCategoryOk.ad?category=신발"><div class="inCategory">신발</div></a>
+			<a href="mainCategoryOk.ad?category=가방/지갑"><div class="inCategory">가방/지갑</div></a>
+			<a href="mainCategoryOk.ad?category=시계"><div class="inCategory">시계</div></a>
+			<a href="mainCategoryOk.ad?category=쥬얼리"><div class="inCategory">쥬얼리</div></a>
+			<a href="mainCategoryOk.ad?category=패션 액세서리"><div class="inCategory">패션 액세서리</div></a>
+			<a href="mainCategoryOk.ad?category=디지털"><div class="inCategory">디지털</div></a>
+			<a href="mainCategoryOk.ad?category=가전제품"><div class="inCategory">가전제품</div></a>
+			<a href="mainCategoryOk.ad?category=스포츠/레저"><div class="inCategory">스포츠/레저</div></a>
+			<a href="mainCategoryOk.ad?category=차량/오토바이"><div class="inCategory">차량/오토바이</div></a>
+			<a href="mainCategoryOk.ad?category=스타굿즈"><div class="inCategory">스타굿즈</div></a>
+			<a href="mainCategoryOk.ad?category=키덜트"><div class="inCategory">키덜트</div></a>
+			<a href="mainCategoryOk.ad?category=예술/희귀/수집품"><div class="inCategory">예술/희귀/수집품</div></a>
+			<a href="mainCategoryOk.ad?category=음반/악기"><div class="inCategory">음반/악기</div></a>
+			<a href="mainCategoryOk.ad?category=도서/티켓/문구"><div class="inCategory">도서/티켓/문구</div></a>
+			<a href="mainCategoryOk.ad?category=뷰티/미용"><div class="inCategory">뷰티/미용</div></a>
+			<a href="mainCategoryOk.ad?category=가구/인테리어"><div class="inCategory">가구/인테리어</div></a>
+			<a href="mainCategoryOk.ad?category=생활/주방용품"><div class="inCategory">생활/주방용품</div></a>
+			<a href="mainCategoryOk.ad?category=공구/산업용품"><div class="inCategory">공구/산업용품</div></a>
+			<a href="mainCategoryOk.ad?category=식품"><div class="inCategory">식품</div></a>
+			<a href="mainCategoryOk.ad?category=반려동물용품"><div class="inCategory">반려동물용품</div></a>
+			<a href="mainCategoryOk.ad?category=기타"><div class="inCategory">기타</div></a>
 		</div>
 	</div>
 </div>

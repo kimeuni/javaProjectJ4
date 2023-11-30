@@ -61,7 +61,7 @@
 	        font-size: 16pt;
 	        font-weight: bolder;
 	    }
-	    hr{
+	    p hr{
 	        border: 1px solid gray;
 	        width: 400px;
 	    }

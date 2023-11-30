@@ -14,9 +14,6 @@ public class ChatGroupCommand implements ChatInterface {
 		String saleMid = request.getParameter("saleMid")==null? "" : request.getParameter("saleMid");
 		String myMid = request.getParameter("myMid")==null? "" : request.getParameter("myMid");
 		
-		System.out.println(saleBoardIdx);
-		System.out.println(saleMid);
-		System.out.println(myMid);
 		
 		// 만들어진 채팅 그룹이 있는지 확인
 		ChatDAO dao = new ChatDAO();

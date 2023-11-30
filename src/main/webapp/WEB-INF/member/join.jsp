@@ -11,7 +11,7 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   	<script src="${ctp}/js/woo.js"></script>
     <style>
-        hr{
+        .joinMain hr{
             border: 1.5px solid #252525;
         }
         h5{
