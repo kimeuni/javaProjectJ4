@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<jsp:include page="/include/memberCheck.jsp"/>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>${mVO.nickName} | 상점</title>
+    <title>${mVO.nickName} | 찜목록</title>
     <jsp:include page="/include/bs4.jsp"/>
     <style>
     	#myStoreSaleMain{
@@ -42,6 +43,17 @@
         	margin-bottom: 20px;
         }
     	a .saleStore {
+    		text-align:center;
+        	display: inline-block;
+            width: 366px;
+            height: 65px;
+            border: 1px;
+            font-size: 1.3em;
+            line-height: 65px;
+            border: 1px solid #ddd;
+            border-bottom: 1px solid black;
+        }
+        a #likeStore {
             height: 65px;
             border: 1px;
             line-height: 65px;
@@ -52,17 +64,6 @@
             border-style:solid;
             width: 366px;
             font-size: 1.3em; 
-        }
-        a #likeStore {
-        	text-align:center;
-        	display: inline-block;
-            width: 366px;
-            height: 65px;
-            border: 1px;
-            font-size: 1.3em;
-            line-height: 65px;
-            border: 1px solid #ddd;
-            border-bottom: 1px solid black;
         }
         a #managementStore {
         	text-align:center;
@@ -78,8 +79,6 @@
         #saleStr{
         	margin-top: 20px;
         	font-size: 16pt;
-        	min-width: 300px;
-        	float: left;
         }
         #newcategory{
     		float: left;
@@ -89,46 +88,45 @@
     	#newcategory:hover{
     		opacity: 0.7;
     	}
-    	#userCategoryDiv{
-    		margin-top: 20px;
-    		margin-right: 10px;
-    		float: right;
-    	}
     </style>
     <script>
     	'use script'
     	
-    	function userCategorysChangeSale(mid){
-			let userCategorys = document.getElementById("userCategorys").value;
-			
-			location.href="userCategorysChangeSale.sa?category="+userCategorys+"&mid="+mid;
+    	// 찜 취소
+    	function likesDelete(likeMid,idx){
+    		let query={
+ 				likeMid : likeMid,
+ 				idx : idx
+ 			}    		
+ 			$.ajax({
+ 				url : "likeDelete.sa",
+ 				type : "post",
+ 				data : query,
+ 				success : function(res){
+ 					if(res == "0") alert("찜취소 실패");
+ 					else location.reload();
+ 				},
+ 				error : function(){
+ 					alert("전송오류(saleContent.jsp)")
+ 				}
+ 			});
     	}
     </script>
 </head>
 <body>
 <jsp:include page="/include/header.jsp"/>
-	<div id="myStoreSaleMain">
+    <div id="myStoreSaleMain">
 		<jsp:include page="/include/userInfo.jsp"/>
 		<div id="storeNav">
 			<c:if test="${mVO.mid != sMid }">
-        		<a href="myStoreSale.sa?mid=${mVO.mid}"><div class="saleStore">상품 ${saleAllSize}</div><div style="width:734; border-bottom: 1px solid black;"></div></a>
+        		<a href="myStoreSale.sa?mid=${mVO.mid}"><div class="saleStore">상품 ${saleSize}</div><div style="width:734; border-bottom: 1px solid black;"></div></a>
 			</c:if>
 			<c:if test="${mVO.mid == sMid }">
         		<a href="myStoreSale.sa?mid=${mVO.mid}"><div class="saleStore">상품 ${saleAllSize}</div></a><a href="myStoreLike.sa?mid=${mVO.mid}"><div id="likeStore">찜목록</div></a><a href="myStoreManagement.sa?mid=${mVO.mid}"><div id="managementStore">상품관리</div></a>
 			</c:if>
-			<div id="saleStr">상품 <span style="color:red">${saleAllSize}</span></div>
-			<div id="userCategoryDiv">
-				<select name="userCategorys" id="userCategorys" onchange="userCategorysChangeSale('${mVO.mid }')">
-					<option value="">전체</option>
-					<c:forEach var="cgNames" items="${categorysName}">
-						<option value="${cgNames}" ${cgNames==category ? 'selected':'' }>${cgNames}</option>
-					</c:forEach>
-				</select>
-			</div>
-			<div style="clear:both"></div>
+			<div id="saleStr">찜 <span style="color:red">${likeSize}</span></div>
 			<hr/>
-			<div style="margin-bottom: 10px;"><c:if test="${category == ''}">전체 &nbsp;&nbsp;&nbsp; <span style="color:gray">${saleSize}개</span></c:if></div>
-			<div style="margin-bottom: 10px;"><c:if test="${category != ''}">${category } &nbsp;&nbsp;&nbsp; <span style="color:gray">${saleSize}개</span></c:if></div>
+			<div style="margin-bottom: 10px;">전체 &nbsp;&nbsp;&nbsp; <span style="color:gray">${likeSize}개</span></div>
 			<c:forEach var="allVO" items="${saVOS}" varStatus="st">
 				<c:set var="fSNames" value="${fn:split(allVO.fSName,'/')}"/>
 				<!-- forEach를 통하여 등록된 게시글 출력 -->
@@ -143,17 +141,14 @@
 				   			<c:if test="${allVO.hour_diff > 24 }">${allVO.date_diff}일 전</c:if>
 				   			<c:if test="${allVO.hour_diff <= 24 }">${allVO.hour_diff}시간 전</c:if>
 				   		</div>
-				   		<div>
-					   		<c:if test="${allVO.state == '예약중' || allVO.state == '판매완료' }"><div style="color:red; float: left; width: 90px;">${allVO.state}</div></c:if>
-					   		<div style="float:right; text-align:right; padding-right: 10px; padding-bottom: 5px; width: 100px; color:gray">
-					   			<i class="fa-solid fa-heart"></i> ${allVO.totLike}
-					   		</div>
+				   		<div style="text-align: right; padding-right: 10px; padding-bottom: 5px;  color:gray">
+				   			<button name="likes" id="likes" onclick="likesDelete('${sMid}','${allVO.idx}')" style="background-color: #E54090"><i class="fa-regular fa-heart" style="color:red"></i>찜취소</button>
 				   		</div>
 				   	</div></a>
 			   </c:forEach>
 			   <div style="clear:both;"></div>
         </div>
-	</div>
+	</div>	
 <jsp:include page="/include/footer.jsp"/>
 </body>
 </html>

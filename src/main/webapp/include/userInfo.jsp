@@ -43,7 +43,7 @@
 			<hr/>
 			<div>
 				<i class="fa-solid fa-store" style="color:orange;"></i>상점 오픈일 ${mVO.day_diff}일 전 &nbsp;&nbsp;&nbsp;
-				<i class="fa-solid fa-cart-shopping" style="color:blue;"></i>상품 ${saleSize}개 &nbsp;&nbsp;&nbsp;
+				<i class="fa-solid fa-cart-shopping" style="color:blue;"></i>상품 ${saleAllSize}개 &nbsp;&nbsp;&nbsp;
 				<c:if test="${mVO.mid == sMid }"><i class="fa-solid fa-heart" style="color:red;"></i>찜 ${likeSize}개</c:if>
 			</div>
 			<hr/>

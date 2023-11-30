@@ -13,6 +13,7 @@ public class SaleBoardVO {
 	private String mid;
 	private String state;
 	private String category;
+	private String userDel;
 	
 	// 메인화면에서 게시글 올린지 얼마나 지났는지 확인을 위해서
 	private String hour_diff;
@@ -90,6 +91,12 @@ public class SaleBoardVO {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+	public String getUserDel() {
+		return userDel;
+	}
+	public void setUserDel(String userDel) {
+		this.userDel = userDel;
+	}
 	public String getHour_diff() {
 		return hour_diff;
 	}
@@ -106,7 +113,7 @@ public class SaleBoardVO {
 	public String toString() {
 		return "SaleBoardVO [idx=" + idx + ", fSName=" + fSName + ", fSize=" + fSize + ", title=" + title + ", money="
 				+ money + ", totLike=" + totLike + ", viewCnt=" + viewCnt + ", uploadDate=" + uploadDate + ", content="
-				+ content + ", mid=" + mid + ", state=" + state + ", category=" + category + ", hour_diff=" + hour_diff
-				+ ", date_diff=" + date_diff + "]";
+				+ content + ", mid=" + mid + ", state=" + state + ", category=" + category + ", userDel=" + userDel
+				+ ", hour_diff=" + hour_diff + ", date_diff=" + date_diff + "]";
 	}
 }

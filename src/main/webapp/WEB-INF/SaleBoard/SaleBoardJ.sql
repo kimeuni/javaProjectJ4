@@ -15,6 +15,7 @@ create table saleBoardJ (
 	mid varchar(17) not null,					/* 등록한 사람 아이디 */
 	state char(4) not null default '판매중',		/* 판매 상태(판매중,예약중,판매완료) */
 	category varchar(20) not null,				/* 카테고리 */
+	userDel char(1) default 'N',				/* 유저 탈퇴 신청했는지 확인 (탈퇴:Y: / 탈퇴x: N) */
 	primary key(idx),
 	foreign key (mid) references memberJ (mid)	/* 아이디 외래키 설정 */
 );

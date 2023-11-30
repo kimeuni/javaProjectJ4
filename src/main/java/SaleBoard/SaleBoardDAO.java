@@ -40,7 +40,7 @@ public class SaleBoardDAO {
 	public int setSaleUpdateOk(SaleBoardVO vo) {
 		int res = 0;
 		try {
-			sql = "insert into saleBoardJ values(default,?,?,?,?,default,default,default,?,?,default,?) ";
+			sql = "insert into saleBoardJ values(default,?,?,?,?,default,default,default,?,?,default,?,default) ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getfSName());
 			pstmt.setInt(2, vo.getfSize());
@@ -79,6 +79,7 @@ public class SaleBoardDAO {
 				vo.setMid(rs.getString("mid"));
 				vo.setState(rs.getString("state"));
 				vo.setCategory(rs.getString("category"));
+				vo.setUserDel(rs.getString("userDel"));;
 				
 				vo.setHour_diff(rs.getString("hour_diff"));
 				vo.setDate_diff(rs.getString("date_diff"));
@@ -97,7 +98,7 @@ public class SaleBoardDAO {
 	public SaleBoardVO getIdxSaleContent(int idx) {
 		vo = new SaleBoardVO();
 		try {
-			sql = "select * from saleBoardJ where idx=?";
+			sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where idx=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			rs = pstmt.executeQuery();
@@ -114,6 +115,11 @@ public class SaleBoardDAO {
 				vo.setMid(rs.getString("mid"));
 				vo.setState(rs.getString("state"));
 				vo.setCategory(rs.getString("category"));
+				vo.setUserDel(rs.getString("userDel"));
+
+				vo.setHour_diff(rs.getString("hour_diff"));
+				vo.setDate_diff(rs.getString("date_diff"));
+				
 			}
 		} catch (SQLException e) {
 			System.out.println("sql문 오류(idx로 현재 게시물 찾기)" + e.getMessage());
@@ -124,12 +130,21 @@ public class SaleBoardDAO {
 	}
 
 	// mid를 통하여 해당 유저가 작성한 게시글 확인
-	public ArrayList<SaleBoardVO> getOneSaleBoardMidList(String mid) {
+	public ArrayList<SaleBoardVO> getOneSaleBoardMidList(String mid, int startIndexNo, int pageSize) {
 		ArrayList<SaleBoardVO> vos = new ArrayList<SaleBoardVO>();
 		try {
-			sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where mid = ? order by uploadDate desc ";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, mid);
+			if(startIndexNo == 0 && pageSize == 0) {
+				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where mid = ? order by uploadDate desc ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, mid);
+			}
+			else {
+				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where mid = ? order by uploadDate desc limit ?,?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, mid);
+				pstmt.setInt(2, startIndexNo);
+				pstmt.setInt(3, pageSize);
+			}
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				vo = new SaleBoardVO();
@@ -145,6 +160,7 @@ public class SaleBoardDAO {
 				vo.setMid(rs.getString("mid"));
 				vo.setState(rs.getString("state"));
 				vo.setCategory(rs.getString("category"));
+				vo.setUserDel(rs.getString("userDel"));
 				
 				vo.setHour_diff(rs.getString("hour_diff"));
 				vo.setDate_diff(rs.getString("date_diff"));
@@ -386,15 +402,17 @@ public class SaleBoardDAO {
 	}
 	
 	// mid에 해당하는  유저가 사용한 카테고리
-	public String getUserUseCategory(String mid) {
-		String str = "";
+	public ArrayList<String> getUserUseCategory(String mid) {
+		ArrayList<String> vos = new ArrayList<String>();
 		try {
 			sql="select category from saleBoardJ where mid=? group by category";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mid);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-				str += rs.getString("category") + "-";
+				String category = "";
+				category += rs.getString("category");
+				vos.add(category);
 			}
 			
 		} catch (SQLException e) {
@@ -402,7 +420,212 @@ public class SaleBoardDAO {
 		} finally {
 			rsClose();
 		}
-		return str.substring(0,str.length()-1);
+		return vos;
 	}
-	
+
+	// 회원 탈퇴시 usrDel을 바꾸어 main화면에 나오지 않도록 한다.
+	public void setSaleBoardUserDelUpdate(String mid) {
+		try {
+			sql = "update saleBoardJ set userDel='Y' where mid=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(회원 탈퇴시 usrDel을 바꾸어 main화면에 나오지 않도록 한다.)" + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+	}
+
+	// 카테고리별 출력 리스트
+	public ArrayList<SaleBoardVO> getCategoryList(String category, String mid, int startIndexNo, int pageSize) {
+		ArrayList<SaleBoardVO> vos = new ArrayList<SaleBoardVO>();
+		try {
+			if(startIndexNo == 0 && pageSize == 0) {
+				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where category=? and mid=? order by uploadDate desc";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, category);
+				pstmt.setString(2, mid);
+			}
+			else {
+				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where category=? and mid=? order by uploadDate desc limit ?,?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, category);
+				pstmt.setString(2, mid);
+				pstmt.setInt(3, startIndexNo);
+				pstmt.setInt(4, pageSize);
+			}
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				vo = new SaleBoardVO();
+				vo.setIdx(rs.getInt("idx"));
+				vo.setfSName(rs.getString("fSName"));
+				vo.setfSize(rs.getInt("fSize"));
+				vo.setTitle(rs.getString("title"));
+				vo.setMoney(rs.getInt("money"));
+				vo.setTotLike(rs.getInt("totLike"));
+				vo.setViewCnt(rs.getInt("viewCnt"));
+				vo.setUploadDate(rs.getString("uploadDate"));
+				vo.setContent(rs.getString("content"));
+				vo.setMid(rs.getString("mid"));
+				vo.setState(rs.getString("state"));
+				vo.setCategory(rs.getString("category"));
+				vo.setUserDel(rs.getString("userDel"));
+				
+				vo.setHour_diff(rs.getString("hour_diff"));
+				vo.setDate_diff(rs.getString("date_diff"));
+				
+				vos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(카테고리별 출력 리스트)" + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vos;
+	}
+
+	// state 선택시(판매중,판매완료,예약중) 리스트 출력
+	public ArrayList<SaleBoardVO> getStateList(String state, String mid, int startIndexNo, int pageSize) {
+		ArrayList<SaleBoardVO> vos = new ArrayList<SaleBoardVO>();
+		try {
+			if(startIndexNo == 0 && pageSize == 0) {
+				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where state=? and mid=? order by uploadDate desc";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, state);
+				pstmt.setString(2, mid);
+			}
+			else {
+				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where state=? and mid=? order by uploadDate desc limit ?,?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, state);
+				pstmt.setString(2, mid);
+				pstmt.setInt(3, startIndexNo);
+				pstmt.setInt(4, pageSize);
+			}
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				vo = new SaleBoardVO();
+				vo.setIdx(rs.getInt("idx"));
+				vo.setfSName(rs.getString("fSName"));
+				vo.setfSize(rs.getInt("fSize"));
+				vo.setTitle(rs.getString("title"));
+				vo.setMoney(rs.getInt("money"));
+				vo.setTotLike(rs.getInt("totLike"));
+				vo.setViewCnt(rs.getInt("viewCnt"));
+				vo.setUploadDate(rs.getString("uploadDate"));
+				vo.setContent(rs.getString("content"));
+				vo.setMid(rs.getString("mid"));
+				vo.setState(rs.getString("state"));
+				vo.setCategory(rs.getString("category"));
+				vo.setUserDel(rs.getString("userDel"));
+				
+				vo.setHour_diff(rs.getString("hour_diff"));
+				vo.setDate_diff(rs.getString("date_diff"));
+				
+				vos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(state 선택시(판매중,판매완료,예약중) 리스트 출력)" + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vos;
+	}
+
+	// 판매중/예약중/판매완료 선택박스 업데이트
+	public void setSaleStateUpdate(String state, int idx) {
+		try {
+			sql = "update saleBoardJ set state=? where idx=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, state);
+			pstmt.setInt(2, idx);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(판매중/예약중/판매완료 선택박스 업데이트)" + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+	}
+
+	// 해당 유저 상품 총 레코드 건수 (상품관리)
+	public int getTotRecCnt(String mid) {
+		int totRecCnt =0;
+		try {
+			sql = "select count(*) as cnt from saleBoardJ where mid=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			rs = pstmt.executeQuery();
+			rs.next();
+			
+			totRecCnt = rs.getInt("cnt");
+		} catch (SQLException e) {
+			System.out.println("sql구문 오류(해당 유저 상품 총 레코드 건수 (상품관리))" + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return totRecCnt;
+	}
+
+	// up누를 시, 해당 게시물 uploadDate를 now()로 바꿔줌
+	public void setSaleUploadDateUp(int idx) {
+		try {
+			sql ="update saleBoardJ set uploadDate=now() where idx=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("sql구문 오류(up누를 시, 해당 게시물 uploadDate를 now()로 바꿔줌)" + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+	}
+
+	// 상품 검색할때 사용
+	public ArrayList<SaleBoardVO> getmyStoreSearchList(String search, String mid, int startIndexNo, int pageSize) {
+		ArrayList<SaleBoardVO> vos = new ArrayList<SaleBoardVO>();
+		try {
+			if(startIndexNo == 0 && pageSize == 0) {
+				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where title like ? and mid=? order by uploadDate desc";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%"+search+"%");
+				pstmt.setString(2, mid);
+			}
+			else {
+				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where title like ? and mid=? order by uploadDate desc limit ?,?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%"+search+"%");
+				pstmt.setString(2, mid);
+				pstmt.setInt(3, startIndexNo);
+				pstmt.setInt(4, pageSize);
+			}
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				vo = new SaleBoardVO();
+				vo.setIdx(rs.getInt("idx"));
+				vo.setfSName(rs.getString("fSName"));
+				vo.setfSize(rs.getInt("fSize"));
+				vo.setTitle(rs.getString("title"));
+				vo.setMoney(rs.getInt("money"));
+				vo.setTotLike(rs.getInt("totLike"));
+				vo.setViewCnt(rs.getInt("viewCnt"));
+				vo.setUploadDate(rs.getString("uploadDate"));
+				vo.setContent(rs.getString("content"));
+				vo.setMid(rs.getString("mid"));
+				vo.setState(rs.getString("state"));
+				vo.setCategory(rs.getString("category"));
+				vo.setUserDel(rs.getString("userDel"));
+				
+				vo.setHour_diff(rs.getString("hour_diff"));
+				vo.setDate_diff(rs.getString("date_diff"));
+				
+				vos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(상품 검색할때 사용)" + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vos;
+	}
 }

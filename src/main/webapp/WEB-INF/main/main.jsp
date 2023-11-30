@@ -39,6 +39,7 @@
 			top: 200px;
 			right: 200px;
 		}
+		
     </style>
     <script>
     	'use strict'
@@ -64,22 +65,27 @@
 <hr/>
    <c:forEach var="allVO" items="${allVOS}" varStatus="st">
 	<c:set var="fSNames" value="${fn:split(allVO.fSName,'/')}"/>
+	<c:if test="${allVO.userDel != 'Y' }">
 	<!-- forEach를 통하여 등록된 게시글 출력 -->
-   	<a href="saleContent.sa?idx=${allVO.idx}"><div id="newcategory">
-   		<div><img src="${ctp}/images/sale/${fSNames[0]}" title="${fSNames[0]}" width="198px" height="186px"/></div>
-   		<div style="text-align: left; margin: 6px 5px;"> 
-	   		<c:if test="${fn:length(allVO.title) > 10 }">${fn: substring(allVO.title,0,10)}···</c:if>
-	   		<c:if test="${fn:length(allVO.title) <= 10 }">${allVO.title}</c:if>
-   		</div>
-   		<div style="text-align: left; margin: 6px 5px; width: 120px; float: left"><b>${allVO.money}원</b></div>
-   		<div style="text-align: right; margin: 6px 5px; width: 58px; float: right; font-size: 10px; color:lightgary;">
-   			<c:if test="${allVO.hour_diff > 24 }">${allVO.date_diff}일 전</c:if>
-   			<c:if test="${allVO.hour_diff <= 24 }">${allVO.hour_diff}시간 전</c:if>
-   		</div>
-   		<div style="text-align: right; padding-right: 10px; padding-bottom: 5px;  color:gray">
-   			<i class="fa-solid fa-heart"></i> ${allVO.totLike}
-   		</div>
-   	</div></a>
+	   	<a href="saleContent.sa?idx=${allVO.idx}"><div id="newcategory">
+	   		<div><img src="${ctp}/images/sale/${fSNames[0]}" title="${fSNames[0]}" width="198px" height="186px"/></div>
+	   		<div style="text-align: left; margin: 6px 5px;"> 
+		   		<c:if test="${fn:length(allVO.title) > 10 }">${fn: substring(allVO.title,0,10)}···</c:if>
+		   		<c:if test="${fn:length(allVO.title) <= 10 }">${allVO.title}</c:if>
+	   		</div>
+	   		<div style="text-align: left; margin: 6px 5px; width: 120px; float: left"><b>${allVO.money}원</b></div>
+	   		<div style="text-align: right; margin: 6px 5px; width: 58px; float: right; font-size: 10px; color:lightgary;">
+	   			<c:if test="${allVO.hour_diff > 24 }">${allVO.date_diff}일 전</c:if>
+	   			<c:if test="${allVO.hour_diff <= 24 }">${allVO.hour_diff}시간 전</c:if>
+	   		</div>
+	   		<div>
+		   		<c:if test="${allVO.state == '예약중' || allVO.state == '판매완료' }"><div style="color:red; float: left; width: 90px;">${allVO.state}</div></c:if>
+		   		<div style="float:right; text-align:right; padding-right: 10px; padding-bottom: 5px; width: 100px; color:gray">
+		   			<i class="fa-solid fa-heart"></i> ${allVO.totLike}
+		   		</div>
+	   		</div>
+	   	</div></a>
+	</c:if>
    </c:forEach>
    <div style="clear:both;"></div>
 </div>

@@ -85,6 +85,35 @@
 			text-align:center;
 			padding: 30px;
 		}
+		.item-box{
+		     position: relative;
+		  }
+	    .sold-out{
+		    position: absolute;
+		    left: 0px;
+		    top: 0px;
+		    width: 100%;
+		    height: 100%;
+		    display: table;
+		    background: rgba(0, 0, 0, 0.5);
+		    color: #fff;
+		 }
+		
+		 .sold-out > p{
+		    display: table-cell;
+		    text-align: center;
+		    vertical-align: middle;
+		 }
+		 
+		 #myStoreHome{
+		 	border: 1px solid gray;
+    		background-color: #F9BC28;
+    		height: 50px;
+    		width: 400px;
+    		color : #fff;
+    		font-weight: bolder;
+    		font-size: 1.3em;
+		 }
     </style>
     <script>
     	'use strict'
@@ -95,6 +124,7 @@
     		if(ans) location.href="deleteSale.sa?idx="+idx+"&fSName="+fSName;
     	}
     	
+    	// 찜하기
     	function likesCheck(likeMid,idx){
     		if(likeMid.trim() == ""){
     			alert("로그인 후 이용 가능합니다.")
@@ -232,10 +262,14 @@
 		<hr style="border-color: black"/>
 		<div>
 			<div id="leftDiv">
-				<img src="${ctp}/images/sale/${vo.fSName}" width="350px" height="350px">
+				<c:set var="fSNames" value="${fn:split(vo.fSName,'/')}"/>
+		   		<div><img src="${ctp}/images/sale/${fSNames[0]}" title="${fSNames[0]}" width="350px" height="350px"/></div>
 			</div>
 			<div id="rightDiv">
-				<div style="font-size:2em;">${vo.title}</div>
+				<div style="font-size:2em;">
+					${vo.title}
+				</div>
+				<div style="color: red;font-size: 0.8em">(${vo.state})</div>
 				<div style="margin: 5px 0px"><span style="font-size:2em; font-weight: bolder;">${vo.money}</span><span style="font-size:1.6em">원</span></div>
 				<hr/>
 				<div style="margin-bottom: 80px;">
@@ -247,8 +281,7 @@
 					<!-- 찜 데이터베이스 만들면 만약 sMid(로그인한 아이디로) 찜 눌렀을시 하트 색 바꾸기 -->
 					<!-- 자신이 등록한 글이면 찜,채팅,신고 버튼이 보이지 않음 -->
 					<c:if test="${sMid == vo.mid}">
-						<button name="likes" id="likes" onclick="location.href='saleChange.sa?idx=${vo.idx}'" style="width: 220px;"><i class="fa-regular fa-pen-to-square"></i>수정</button>
-						<button name="report" id="report" onclick="deleteSale('${vo.idx}','${vo.fSName}')" style="width: 220px;"><i class="fa-solid fa-trash"></i>삭제</button>
+						<button name="myStoreHome" id="myStoreHome" onclick="location.href='myStoreSale.sa?mid=${sMid}'">내 상점 관리</button>
 					</c:if>
 					<c:if test="${sMid != vo.mid}">
 						<!-- 찜 안했을 때 -->
@@ -256,7 +289,7 @@
 						<!-- 찜 했을 때 -->
 						<%-- ${sMid} / ${likeVO.likeMid} / ${likeVO.likeYN} / ${vo.idx} / ${likeVO.saleBoardIdx} --%>
 						<c:if test="${sMid == likeVO.likeMid && likeVO.likeYN == 'Y'}"><button name="likes" id="likes" onclick="likesDelete('${sMid}','${vo.idx}')" style="background-color: #E54090"><i class="fa-regular fa-heart" style="color:red"></i>찜취소</button></c:if>
-						<button name="chatting" id="chatting" onclick=""><i class="fa-regular fa-comments"></i>채팅하기</button>
+						<button name="chatting" id="chatting" onclick="location.href='chatGroup.cht?saleBoardIdx=${vo.idx}&saleMid=${vo.mid}&myMid=${sMid}'"><i class="fa-regular fa-comments"></i>채팅하기</button>
 						<button name="report" id="report" onclick="cpCheck()"><i class="fa-solid fa-triangle-exclamation"></i>신고하기</button>
 					</c:if>
 				</div>
@@ -286,12 +319,12 @@
 				<!-- 게시글 작성한 유저가 등록한 글 4건 미리보기 -->
 				<div>${mVO.nickName}님 <br/>최근 등록 상품</div>
 				<c:forEach var="userSale" items="${vos}" begin="0" end="3">
-				<a href="saleContent.sa?idx=${userSale.idx}"><div style="float: left">
-					<div style="border: 1px solid gray;" >
-						<div><img src="${ctp}/images/sale/${userSale.fSName}" width="110px" height="110"/></div>
-						<div style="text-align: center">${userSale.money}원</div>
-					</div>
-				</div></a>
+					<a href="saleContent.sa?idx=${userSale.idx}"><div style="float: left">
+						<div style="border: 1px solid gray;" >
+							<div><img src="${ctp}/images/sale/${userSale.fSName}" width="110px" height="110"/></div>
+							<div style="text-align: center">${userSale.money}원</div>
+						</div>
+					</div></a>
 				</c:forEach>
 				<div style="clear:both;"></div>
 			</div>
@@ -325,8 +358,8 @@
 			</div>
 		</div>
 	</div>
-	<!-- 세션 아이디 값 있는지 체크하기 위해(신고에서 사용) -->
-	<input type="hidden" value="${sMid}" name="sMid" id="sMid">
+<!-- 세션 아이디 값 있는지 체크하기 위해(신고에서 사용) -->
+<input type="hidden" value="${sMid}" name="sMid" id="sMid">
 <jsp:include page="/include/footer.jsp"/>
 </body>
 </html>

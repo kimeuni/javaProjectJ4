@@ -55,7 +55,7 @@ public class SaleContentCommand implements SaleBoardInterface {
 		
 		
 		// 현재 게시물 작성한 유저가 어떤 게시글을 적었는지 전체 보기 
-		ArrayList<SaleBoardVO> vos = dao.getOneSaleBoardMidList(vo.getMid());
+		ArrayList<SaleBoardVO> vos = dao.getOneSaleBoardMidList(vo.getMid(),0,0);
 		
 		
 		// 게시글 등록한 사람 정보 가져오기

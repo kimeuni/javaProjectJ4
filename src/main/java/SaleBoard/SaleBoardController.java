@@ -77,6 +77,48 @@ public class SaleBoardController extends HttpServlet{
 			command.execute(request, response);
 			viewPage += "/myStoreSale.jsp";
 		}
+		// 내 상점 (찜하기) 부분 들어가기
+		else if(com.equals("/myStoreLike")) {
+			command = new MyStoreLikeCommand();
+			command.execute(request, response);
+			viewPage += "/myStoreLike.jsp";
+		}
+		// 내 상점 (상점) 부분 카테고리 선택박스
+		else if(com.equals("/userCategorysChangeSale")) {
+			command = new MyStoreSaleCommand();
+			command.execute(request, response);
+			viewPage += "/myStoreSale.jsp";
+		}
+		// 내 상점 (상점관리) 부분 들어가기
+		else if(com.equals("/myStoreManagement")) {
+			command = new MyStoreManageCommand();
+			command.execute(request, response);
+			viewPage += "/myStoreManagement.jsp";
+		}
+		// 내 상점 (상점관리) 부분 판매완료... 선택박스
+		else if(com.equals("/myStoreManagementSearchStateChang")) {
+			command = new MyStoreManageCommand();
+			command.execute(request, response);
+			viewPage += "/myStoreManagement.jsp";
+		}
+		// 내 상점 (상점관리) 부분 state 변경 처리
+		else if(com.equals("/myStoreManagementstateChange")) {
+			command = new MyStoreManageCommand();
+			command.execute(request, response);
+			viewPage += "/myStoreManagement.jsp";
+		}
+		// 내 상점 (상점관리) 부분 state 변경 처리
+		else if(com.equals("/myStoreMangeUp")) {
+			command = new MyStoreManageCommand();
+			command.execute(request, response);
+			viewPage += "/myStoreManagement.jsp";
+		}
+		// 내 상점 (상점관리) 부분 검색 처리
+		else if(com.equals("/myStoreSearchList")) {
+			command = new MyStoreManageCommand();
+			command.execute(request, response);
+			viewPage += "/myStoreManagement.jsp";
+		}
 		request.getRequestDispatcher(viewPage).forward(request, response);
 	}
 }

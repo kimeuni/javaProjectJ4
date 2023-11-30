@@ -229,4 +229,6 @@ public class MemberJDAO {
 			pstmtClose();
 		}
 	}
+
+	
 }

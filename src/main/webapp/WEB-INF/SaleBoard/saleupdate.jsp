@@ -67,6 +67,7 @@
 			let content = $("#content").val();
 			let fileSize = 0;
 			
+			let regMoney = /^[0-9]*$/;
 			
 			if(fName.trim() == ""){
 				alert("상품 이미지를 등록해주세요.")
@@ -84,6 +85,11 @@
 			}
 			else if(money.trim() == ""){
 				alert("상품 금액을 작성해주세요.")
+				$("#money").focus();
+				return false
+			}
+			else if(!regMoney.test(money)){
+				alert("상품 금액은 숫자로만 입력 가능합니다.")
 				$("#money").focus();
 				return false
 			}
