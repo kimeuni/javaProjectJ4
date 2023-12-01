@@ -1,6 +1,7 @@
 package chat;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,13 +22,18 @@ public class ChatGroupCommand implements ChatInterface {
 		// 채팅 그룹이 있는지 확인용
 		int res = dao.getChatGroupCheck(saleBoardIdx,saleMid,myMid);
 	
-		if(res == 0 && !myMid.equals("")) {
+		if(res == 0 && !myMid.equals("") && saleBoardIdx !=0 ) {
 			// 채팅 그룹이 없으면 만들기
 			dao.setChatGroupInsert(saleBoardIdx,saleMid,myMid);
 		}
 		
 		// 채팅 그룹 화면에 뿌릴 값 리스트 가져오기
+		ArrayList<ChatGroupJVO> cgVOS = dao.getChatGroupList(myMid);
 		
+		request.setAttribute("cgVOS", cgVOS);
+		request.setAttribute("saleBoardIdx", saleBoardIdx);
+		request.setAttribute("saleMid", saleMid);
+		request.setAttribute("myMid", myMid);
 		
 	}
 }

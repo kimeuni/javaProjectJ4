@@ -8,6 +8,8 @@ public class ChatJVO {
 	private String myMid;
 	private String chat;
 	private String alarm;
+	private String chatDate;
+	private String whoChatMid;
 	
 	public int getIdx() {
 		return idx;
@@ -51,9 +53,22 @@ public class ChatJVO {
 	public void setAlarm(String alarm) {
 		this.alarm = alarm;
 	}
+	public String getChatDate() {
+		return chatDate;
+	}
+	public void setChatDate(String chatDate) {
+		this.chatDate = chatDate;
+	}
+	public String getWhoChatMid() {
+		return whoChatMid;
+	}
+	public void setWhoChatMid(String whoChatMid) {
+		this.whoChatMid = whoChatMid;
+	}
 	@Override
 	public String toString() {
 		return "ChatJVO [idx=" + idx + ", chatIdx=" + chatIdx + ", saleBoardIdx=" + saleBoardIdx + ", saleMid="
-				+ saleMid + ", myMid=" + myMid + ", chat=" + chat + ", alarm=" + alarm + "]";
+				+ saleMid + ", myMid=" + myMid + ", chat=" + chat + ", alarm=" + alarm + ", chatDate=" + chatDate
+				+ ", whoChatMid=" + whoChatMid + "]";
 	}
 }

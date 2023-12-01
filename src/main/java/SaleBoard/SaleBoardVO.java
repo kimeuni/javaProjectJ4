@@ -18,6 +18,8 @@ public class SaleBoardVO {
 	// 메인화면에서 게시글 올린지 얼마나 지났는지 확인을 위해서
 	private String hour_diff;
 	private String date_diff;
+	// 알림 Y인 좋아요 수만 체크하기 위해서
+	private int newLike;
 	
 	public int getIdx() {
 		return idx;
@@ -109,11 +111,17 @@ public class SaleBoardVO {
 	public void setDate_diff(String date_diff) {
 		this.date_diff = date_diff;
 	}
+	public int getNewLike() {
+		return newLike;
+	}
+	public void setNewLike(int newLike) {
+		this.newLike = newLike;
+	}
 	@Override
 	public String toString() {
 		return "SaleBoardVO [idx=" + idx + ", fSName=" + fSName + ", fSize=" + fSize + ", title=" + title + ", money="
 				+ money + ", totLike=" + totLike + ", viewCnt=" + viewCnt + ", uploadDate=" + uploadDate + ", content="
 				+ content + ", mid=" + mid + ", state=" + state + ", category=" + category + ", userDel=" + userDel
-				+ ", hour_diff=" + hour_diff + ", date_diff=" + date_diff + "]";
+				+ ", hour_diff=" + hour_diff + ", date_diff=" + date_diff + ", newLike=" + newLike + "]";
 	}
 }

@@ -62,7 +62,7 @@ public class SaleBoardDAO {
 	public ArrayList<SaleBoardVO> getSaleAllList() {
 		ArrayList<SaleBoardVO> vos = new ArrayList<SaleBoardVO>();
 		try {
-			sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ order by uploadDate desc limit 0,30";
+			sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where userDel='N' order by uploadDate desc limit 0,30 ";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -449,7 +449,7 @@ public class SaleBoardDAO {
 			}
 			//메인 카테고리 클릭 시 사용
 			else if(startIndexNo == 0 && pageSize == 0 && mid.equals("")) {
-				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where category=? order by uploadDate desc";
+				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where category=? and userDel='N'order by uploadDate desc";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, category);
 			}
@@ -599,7 +599,7 @@ public class SaleBoardDAO {
 			}
 			//메인 검색에서 사용
 			else if(startIndexNo == 0 && pageSize == 0 && mid.equals("")) {
-				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where title like ? order by uploadDate desc";
+				sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where title like ? and userDel='N' order by uploadDate desc";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, "%"+search+"%");
 			}
@@ -639,5 +639,29 @@ public class SaleBoardDAO {
 			rsClose();
 		}
 		return vos;
+	}
+
+	// 알림 띄울 내용 가져오기
+	public SaleBoardVO getSaleNewLikeCnt(int idx, String mid) {
+		SaleBoardVO vo = new SaleBoardVO();
+		try {
+			sql = "select (select count(*) from likeJ where saleBoardIdx = ? ) as newLike, sj.title, sj.idx "
+					+ "from saleBoardJ sj,likeJ lj where sj.idx = ? and lj.likeYN='Y' and sj.mid=? group by sj.idx";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			pstmt.setInt(2, idx);
+			pstmt.setString(3, mid);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				vo.setTitle(rs.getString("title"));
+				vo.setNewLike(rs.getInt("newLike"));
+				vo.setIdx(rs.getInt("idx"));
+			}
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(알림 띄울 내용 가져오기)" + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vo;
 	}
 }

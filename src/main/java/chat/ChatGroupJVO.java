@@ -5,7 +5,7 @@ public class ChatGroupJVO {
 	private int saleBoardIdx;
 	private String saleMid;
 	private String myMid;
-	private int alarm;
+	private int totAlarm;
 	
 	public int getIdx() {
 		return idx;
@@ -31,15 +31,15 @@ public class ChatGroupJVO {
 	public void setMyMid(String myMid) {
 		this.myMid = myMid;
 	}
-	public int getAlarm() {
-		return alarm;
+	public int getTotAlarm() {
+		return totAlarm;
 	}
-	public void setAlarm(int alarm) {
-		this.alarm = alarm;
+	public void setTotAlarm(int totAlarm) {
+		this.totAlarm = totAlarm;
 	}
 	@Override
 	public String toString() {
 		return "ChatGroupJVO [idx=" + idx + ", saleBoardIdx=" + saleBoardIdx + ", saleMid=" + saleMid + ", myMid="
-				+ myMid + ", alarm=" + alarm + "]";
+				+ myMid + ", totAlarm=" + totAlarm + "]";
 	}
 }

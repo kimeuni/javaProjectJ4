@@ -50,3 +50,8 @@ create table reportJ (
 	cpContent text not null, 						/* 신고 사유 */
 	cpDate datetime default now() 					/* 신고날짜 */
 );
+
+-- 새로 들어온 좋아요 수.. sql 확인겸..
+select (select title from saleBoardJ where idx=11)as title,count(*) as newLike,saleBoardIdx from likeJ where saleBoardIdx = 11 and likeYN='Y' group by saleBoardIdx;
+select (select count(*) from likeJ where saleBoardIdx = 11 ) as newLike, sj.title, sj.idx from saleBoardJ sj,likeJ lj where sj.idx = 11 and lj.likeYN='Y' and sj.mid='ccc1234' group by sj.idx;
+select * from saleBoardJ sj,likeJ lj where sj.idx = 11 and lj.likeYN='Y' and sj.mid='ccc1234' group by sj.idx;

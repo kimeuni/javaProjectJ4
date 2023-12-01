@@ -41,8 +41,22 @@ public class MainCommand implements AdminInterface {
 			saVOS.add(saVO);
 		}
 		
+		// 현재 로그인한 사람이 등록한 게시물 가져오기
+		ArrayList<SaleBoardVO> saleMidVOS = dao.getOneSaleBoardMidList(mid, 0, 0);
+		System.out.println(saleMidVOS.size());
+		
+		// 알림 띄울 내용 가져오기
+		ArrayList<SaleBoardVO> newLike = new ArrayList<SaleBoardVO>();
+		for(int i=0; i<saleMidVOS.size(); i++) {
+			SaleBoardVO saVO = new SaleBoardVO();
+			saVO = dao.getSaleNewLikeCnt(saleMidVOS.get(i).getIdx(),mid);
+			newLike.add(saVO);
+		}
+		System.out.println(newLike);
+		
 		request.setAttribute("allVOS", allVOS);
 		request.setAttribute("saVOS", saVOS);
 		request.setAttribute("likeSize", likeVOS.size());
+		request.setAttribute("newLike", newLike);
 	}
 }

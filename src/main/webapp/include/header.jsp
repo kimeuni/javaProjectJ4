@@ -91,7 +91,7 @@
         font-size: 1.2em; 
         background-color: #fff;
     }
-     #contentUserDiv{
+    #contentUserDiv{
     	margin: 0 auto;
         width: 1100px;
         position: relative;
@@ -100,11 +100,43 @@
         background-color: #fff;
     	width: 90px;
     	position: absolute;
-        top: -90px;
+        top: -80px;
         right: 12%;
         text-align:center;
         font-size: 1.2em;
         border: 1px solid;
+    }
+    #contentStoreDiv{
+    	margin: 0 auto;
+        width: 1100px;
+        position: relative;
+    }
+    #contentStore{
+        background-color: #fff;
+    	width: 90px;
+    	position: absolute;
+        top: -80px;
+        right: 2%;
+        text-align:center;
+        font-size: 1.2em;
+        border: 1px solid;
+    }
+    #contentAlarmDiv{
+    	margin: 0 auto;
+        width: 1100px;
+        position: relative;
+    }
+    #contentAlarm{
+        background-color: #eee;
+    	width: 250px;
+    	height: 130px;
+    	position: absolute;
+        top: -80px;
+        right: -2%;
+        text-align:center; 
+        font-size: 1.2em;
+        border: 1px solid gray;
+        overflow: auto;
     }
     .userA{
     	display: block;
@@ -159,7 +191,7 @@
     
     
    
-     #categoryDiv{
+    #categoryDiv{
     	margin: 0 auto;
         width: 1100px;
         position: relative;
@@ -196,14 +228,46 @@
     // 유저 부분 
     $(function() {
    		$("#contentUser").hide();
+   		$("#contentStore").hide();
+   		$("#contentAlarm").hide();
     });
-    
     $(function() {
 		$("#user").mouseenter(function(){
 	   		$("#contentUser").show();
+	   		$("#contentStore").hide();
+	   		$("#contentAlarm").hide();
 		});
 		$("#contentUser").mouseleave (function(){
 	   		$("#contentUser").hide();
+	   		$("#contentStore").hide();
+	   		$("#contentAlarm").hide();
+		});
+    });
+    
+    // 상점 부분
+    $(function() {
+		$("#store").mouseenter(function(){
+	   		$("#contentUser").hide();
+	   		$("#contentStore").show();
+	   		$("#contentAlarm").hide();
+		});
+		$("#contentStore").mouseleave (function(){
+	   		$("#contentUser").hide();
+	   		$("#contentStore").hide();
+	   		$("#contentAlarm").hide();
+		});
+    });
+    // 알림 부분
+    $(function() {
+		$("#bell").mouseenter(function(){
+	   		$("#contentUser").hide();
+	   		$("#contentStore").hide();
+	   		$("#contentAlarm").show();
+		});
+		$("#contentAlarm").mouseleave (function(){
+	   		$("#contentUser").hide();
+	   		$("#contentStore").hide();
+	   		$("#contentAlarm").hide();
 		});
     });
 
@@ -261,7 +325,7 @@
 	        <c:if test="${sMid != null }">
 			<div id="user">${sNickName}님<i class="fa-solid fa-chevron-down"></i></div> 
 			<a href="#"><div id="bell"><i class="fa-regular fa-bell" title="알림"></i></div></a>
-			<a href="#"><div id="store"><i class="fa-solid fa-cart-shopping" id="store" title="내상점"></i></div></a>
+			<a href="myStoreSale.sa?mid=${sMid}"><div id="store"><i class="fa-solid fa-cart-shopping" id="store" title="내상점"></i></div></a>
 	        </c:if>
 	    </div>
 	</div>
@@ -275,7 +339,7 @@
 		        <a href="saleupdate.sa" style="padding: 0px 20px ;" title="판매"><i class="fa-solid fa-sack-dollar" id="sell"> 판매</i></a>
 		    </div>
 		    <div id="myChat">
-		        <a href="" style="padding: 0px 20px;" title="채팅"><i class="fa-solid fa-comment" id="chat"> 채팅</i></a>
+		        <a href="chatGroup.cht?saleBoardIdx=0&saleMid=&myMid=${sMid}" style="padding: 0px 20px;" title="채팅"><i class="fa-solid fa-comment" id="chat"> 채팅</i></a>
 		    </div>
 		</div>
 	</nav>
@@ -285,6 +349,20 @@
 			<a href="myPage.mem" class="userA">계정설정</a>   
 			<c:if test="${sMid == 'admin'}"><a href="adminHome.ad" class="userA">관리메뉴</a></c:if>     	
 			<a href="javascript:logout()" class="userA">로그아웃</a>   
+	    </div>	
+    </div>
+	<!-- 알림 메뉴 -->
+	<div id="contentAlarmDiv">
+		<div id="contentAlarm">
+			
+	    </div>	
+    </div>
+	<!-- 상점 -->
+	<div id="contentStoreDiv">
+		<div id="contentStore">
+			<a href="myStoreSale.sa?mid=${sMid}" class="userA">내 상점</a>   
+			<a href="myStoreLike.sa?mid=${sMid}" class="userA">찜목록</a> 	
+			<a href="myStoreManagement.sa?mid=${sMid}" class="userA">상점관리</a>   
 	    </div>	
     </div>
     <!-- 카테고리 메뉴 -->

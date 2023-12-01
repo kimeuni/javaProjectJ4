@@ -82,7 +82,7 @@ public class MemberJDAO {
 	public MemberJVO getLoginMidOk(String mid) {
 		vo = new MemberJVO();
 		try {
-			sql = "select *,timestampdiff(day,startDate,now()) as day_diff from memberJ where mid=?";
+			sql = "select *,timestampdiff(day,startDate,now()) as day_diff,timestampdiff(hour,startDate,now()) as hour_diff  from memberJ where mid=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mid);
 			rs = pstmt.executeQuery();
@@ -103,6 +103,7 @@ public class MemberJDAO {
 				vo.setLastDate(rs.getString("lastDate"));
 				
 				vo.setDay_diff(rs.getString("day_diff"));
+				vo.setHour_diff(rs.getString("hour_diff"));
 			}
 		} catch (SQLException e) {
 			System.out.println("sql문 오류(아이디로 로그인 계정 확인)" + e.getMessage());

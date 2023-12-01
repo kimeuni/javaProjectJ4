@@ -95,7 +95,7 @@
 </div>
 <div id="likeDiv">
 	<!-- 찜 목록 클릭시 전체 찜목록으로 이동(내가 찜한 것만) -->
-	<a href="">
+	<a href="myStoreLike.sa?mid=${sMid}">
 		<h6 style="text-align: center">찜 목록</h6>
 		<div style="text-align: center"><i class="fa-solid fa-heart" style="color:red"></i>${likeSize}</div>
 	</a>

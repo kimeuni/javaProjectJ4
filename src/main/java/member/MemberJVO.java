@@ -18,132 +18,108 @@ public class MemberJVO {
 	
 	// 상점 오픈일 확인을 위해 만듦
 	private String day_diff;
-
+	private String hour_diff;
 	public int getIdx() {
 		return idx;
 	}
-
 	public void setIdx(int idx) {
 		this.idx = idx;
 	}
-
 	public String getMid() {
 		return mid;
 	}
-
 	public void setMid(String mid) {
 		this.mid = mid;
 	}
-
 	public String getPwd() {
 		return pwd;
 	}
-
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public String getNickName() {
 		return nickName;
 	}
-
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
-
 	public String getAddress() {
 		return address;
 	}
-
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
 	public String getTel() {
 		return tel;
 	}
-
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-
 	public String getEmail() {
 		return email;
 	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 	public String getGender() {
 		return gender;
 	}
-
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-
 	public String getProfile() {
 		return profile;
 	}
-
 	public void setProfile(String profile) {
 		this.profile = profile;
 	}
-
 	public String getUserDel() {
 		return userDel;
 	}
-
 	public void setUserDel(String userDel) {
 		this.userDel = userDel;
 	}
-
 	public String getAdminYN() {
 		return adminYN;
 	}
-
 	public void setAdminYN(String adminYN) {
 		this.adminYN = adminYN;
 	}
-
 	public String getStartDate() {
 		return startDate;
 	}
-
 	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-
 	public String getLastDate() {
 		return lastDate;
 	}
-
 	public void setLastDate(String lastDate) {
 		this.lastDate = lastDate;
 	}
-
 	public String getDay_diff() {
 		return day_diff;
 	}
-
 	public void setDay_diff(String day_diff) {
 		this.day_diff = day_diff;
 	}
-
+	public String getHour_diff() {
+		return hour_diff;
+	}
+	public void setHour_diff(String hour_diff) {
+		this.hour_diff = hour_diff;
+	}
 	@Override
 	public String toString() {
 		return "MemberJVO [idx=" + idx + ", mid=" + mid + ", pwd=" + pwd + ", name=" + name + ", nickName=" + nickName
 				+ ", address=" + address + ", tel=" + tel + ", email=" + email + ", gender=" + gender + ", profile="
 				+ profile + ", userDel=" + userDel + ", adminYN=" + adminYN + ", startDate=" + startDate + ", lastDate="
-				+ lastDate + ", day_diff=" + day_diff + "]";
+				+ lastDate + ", day_diff=" + day_diff + ", hour_diff=" + hour_diff + "]";
 	}
 }
