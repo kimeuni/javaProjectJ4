@@ -11,6 +11,8 @@ import javax.servlet.http.HttpSession;
 import SaleBoard.LikeJVO;
 import SaleBoard.SaleBoardDAO;
 import SaleBoard.SaleBoardVO;
+import chat.ChatGroupJVO;
+import chat.ChatJVO;
 
 public class MainCommand implements AdminInterface {
 
@@ -24,8 +26,6 @@ public class MainCommand implements AdminInterface {
 		
 		// limit 25~40 사이로 하여서 가져오기 (최신순)
 		ArrayList<SaleBoardVO> allVOS = dao.getSaleAllList();
-		
-		//카테고리 랜덤 출력
 		
 		
 		// 자신이 최근에 찜한 목록 보기
@@ -43,20 +43,24 @@ public class MainCommand implements AdminInterface {
 		
 		// 현재 로그인한 사람이 등록한 게시물 가져오기
 		ArrayList<SaleBoardVO> saleMidVOS = dao.getOneSaleBoardMidList(mid, 0, 0);
-		System.out.println(saleMidVOS.size());
 		
-		// 알림 띄울 내용 가져오기
+		// 알림 띄울 내용 가져오기 (찜목록)
 		ArrayList<SaleBoardVO> newLike = new ArrayList<SaleBoardVO>();
 		for(int i=0; i<saleMidVOS.size(); i++) {
 			SaleBoardVO saVO = new SaleBoardVO();
 			saVO = dao.getSaleNewLikeCnt(saleMidVOS.get(i).getIdx(),mid);
 			newLike.add(saVO);
 		}
-		System.out.println(newLike);
+		
+		// 알림 띄울 내용 가져오기(채팅)
+		ArrayList<ChatJVO> cgVOS = dao.getMsgTotAlarm(mid);
 		
 		request.setAttribute("allVOS", allVOS);
 		request.setAttribute("saVOS", saVOS);
 		request.setAttribute("likeSize", likeVOS.size());
 		request.setAttribute("newLike", newLike);
+		request.setAttribute("cgVOS", cgVOS);
+		request.setAttribute("newLikeSize", newLike.size());
+		request.setAttribute("ChatSize", cgVOS.size());
 	}
 }

@@ -12,11 +12,11 @@ import chat.ChatJVO;
 import member.MemberJDAO;
 import member.MemberJVO;
 
-public class SaleContentCommand implements SaleBoardInterface {
+public class SaleAlarmNoCommand implements SaleBoardInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int idx = request.getParameter("idx")==null ? 0 : Integer.parseInt(request.getParameter("idx"));
+int idx = request.getParameter("idx")==null ? 0 : Integer.parseInt(request.getParameter("idx"));
 		
 		SaleBoardDAO dao = new SaleBoardDAO();
 		
@@ -37,6 +37,8 @@ public class SaleContentCommand implements SaleBoardInterface {
 		// ArrayList에 추가된 것을 세션에 담는다.
 		session.setAttribute("sBoardContentIdx", boardContentIdx);
 		
+		// 찜한 알림 삭제
+		dao.setLikeAlarmNo(idx);
 		
 		// 현재 게시글 찜한 사람 있는지 확인 및 찜개수 받아오기
 		int likeCnt = dao.getlikeCnt(idx);
@@ -87,4 +89,5 @@ public class SaleContentCommand implements SaleBoardInterface {
 		request.setAttribute("cgVOS", cgVOS);
 		request.setAttribute("newLikeSize", newLike.size());
 	}
+
 }

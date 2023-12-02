@@ -8,6 +8,10 @@ public class ReportJVO {
 	private String title;
 	private String cpContent;
 	private String cpDate;
+	private String fSName;
+	
+	private String hour_diff;
+	private String date_diff;
 	
 	public int getIdx() {
 		return idx;
@@ -51,9 +55,28 @@ public class ReportJVO {
 	public void setCpDate(String cpDate) {
 		this.cpDate = cpDate;
 	}
+	public String getfSName() {
+		return fSName;
+	}
+	public void setfSName(String fSName) {
+		this.fSName = fSName;
+	}
+	public String getHour_diff() {
+		return hour_diff;
+	}
+	public void setHour_diff(String hour_diff) {
+		this.hour_diff = hour_diff;
+	}
+	public String getDate_diff() {
+		return date_diff;
+	}
+	public void setDate_diff(String date_diff) {
+		this.date_diff = date_diff;
+	}
 	@Override
 	public String toString() {
 		return "ReportJVO [idx=" + idx + ", part=" + part + ", partIdx=" + partIdx + ", cpMid=" + cpMid + ", title="
-				+ title + ", cpContent=" + cpContent + ", cpDate=" + cpDate + "]";
+				+ title + ", cpContent=" + cpContent + ", cpDate=" + cpDate + ", fSName=" + fSName + ", hour_diff="
+				+ hour_diff + ", date_diff=" + date_diff + "]";
 	}
 }

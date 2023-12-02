@@ -10,19 +10,10 @@ import javax.servlet.http.HttpSession;
 
 import chat.ChatJVO;
 
-public class SaleChangeCommand implements SaleBoardInterface {
+public class SaleUpdateCommand implements SaleBoardInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int idx = request.getParameter("idx")==null ? 0 : Integer.parseInt(request.getParameter("idx"));
-		
-		// 수정할 게시글 찾기
-		SaleBoardDAO dao = new SaleBoardDAO();
-		
-		SaleBoardVO vo = dao.getIdxSaleContent(idx);
-		
-		request.setAttribute("vo", vo);
-		
 		SaleBoardDAO saDAO = new SaleBoardDAO();
 		
 		HttpSession session = request.getSession();

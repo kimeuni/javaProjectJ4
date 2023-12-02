@@ -121,7 +121,7 @@
 			<c:if test="${mVO.mid != sMid }">
         		<a href="myStoreSale.sa?mid=${mVO.mid}"><div class="saleStore">상품 ${saleSize}</div><div style="width:734; border-bottom: 1px solid black;"></div></a>
 			</c:if>
-			<c:if test="${mVO.mid == sMid }">
+			<c:if test="${mVO.mid == sMid  }">
         		<a href="myStoreSale.sa?mid=${mVO.mid}"><div class="saleStore">상품 ${saleAllSize}</div></a><a href="myStoreLike.sa?mid=${mVO.mid}"><div id="likeStore">찜목록</div></a><a href="myStoreManagement.sa?mid=${mVO.mid}"><div id="managementStore">상품관리</div></a>
 			</c:if>
 			<div id="saleStr">찜 <span style="color:red">${likeSize}</span></div>

@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import chat.ChatGroupJVO;
+import chat.ChatJVO;
 import common.GetConn;
 
 public class SaleBoardDAO {
@@ -302,13 +304,14 @@ public class SaleBoardDAO {
 	public int setReportInsert(ReportJVO vo) {
 		int res = 0;
 		try {
-			sql = "insert into reportJ values(default,?,?,?,?,?,default)";
+			sql = "insert into reportJ values(default,?,?,?,?,?,default,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getPart());
 			pstmt.setInt(2, vo.getPartIdx());
 			pstmt.setString(3, vo.getCpMid());
 			pstmt.setString(4, vo.getTitle());
 			pstmt.setString(5, vo.getCpContent());
+			pstmt.setString(6, vo.getfSName());
 			res = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("sql구문 오류(신고 처리)" + e.getMessage());
@@ -645,8 +648,8 @@ public class SaleBoardDAO {
 	public SaleBoardVO getSaleNewLikeCnt(int idx, String mid) {
 		SaleBoardVO vo = new SaleBoardVO();
 		try {
-			sql = "select (select count(*) from likeJ where saleBoardIdx = ? ) as newLike, sj.title, sj.idx "
-					+ "from saleBoardJ sj,likeJ lj where sj.idx = ? and lj.likeYN='Y' and sj.mid=? group by sj.idx";
+			sql = "select (select count(*) from likeJ where saleBoardIdx = ? and alarm='Y') as newLike, title, idx "
+					+ "from saleBoardJ where idx = ? and mid=? and totLike!=0 group by idx";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			pstmt.setInt(2, idx);
@@ -658,10 +661,156 @@ public class SaleBoardDAO {
 				vo.setIdx(rs.getInt("idx"));
 			}
 		} catch (SQLException e) {
-			System.out.println("sql문 오류(알림 띄울 내용 가져오기)" + e.getMessage());
+			System.out.println("sql문 오류(알림 띄울 내용 가져오기(찜목록))" + e.getMessage());
 		} finally {
 			rsClose();
 		}
 		return vo;
+	}
+
+	// 알림 띄울 내용 가져오기(채팅)
+	public ArrayList<ChatJVO> getMsgTotAlarm(String mid) {
+		ArrayList<ChatJVO> vos = new ArrayList<ChatJVO>();
+		try {
+			sql = "select *,count(*) as totAlarm from chatJ where (saleMid=? or myMid=?) "
+					+ "and whoChatMid != ? and alarm='Y' group by chatIdx";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			pstmt.setString(2, mid);
+			pstmt.setString(3, mid);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				ChatJVO vo = new ChatJVO();
+				vo.setIdx(rs.getInt("idx"));
+				vo.setChatIdx(rs.getInt("chatIdx"));
+				vo.setSaleBoardIdx(rs.getInt("saleBoardIdx"));
+				vo.setSaleMid(rs.getString("saleMid"));
+				vo.setMyMid(rs.getString("myMid"));
+				vo.setChat(rs.getString("chat"));
+				vo.setAlarm(rs.getString("alarm"));
+				vo.setChatDate(rs.getString("chatDate"));
+				vo.setWhoChatMid(rs.getString("whoChatMid"));
+				
+				vo.setTotAlarm(rs.getInt("totAlarm"));
+				
+				vos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(알림 띄울 내용 가져오기(채팅))" + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vos;
+	}
+
+	// 헤더 알림 찜 목록에서 클릭시 알림 N로 변경
+	public void setLikeAlarmNo(int idx) {
+		try {
+			sql = "update likeJ set alarm='N' where saleBoardIdx=? ";
+			pstmt =conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(헤더 알림 찜 목록에서 클릭시 알림 N로 변경)" + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		
+	}
+
+	// 게시글이 삭제되면 해당 게시글에 존재한 찜 전부 삭제
+	public void setLikeSaleDeleteAll(int idx) {
+		try {
+			sql = "delete from likeJ where saleBoardIdx = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(게시글이 삭제되면 해당 게시글에 존재한 찜 전부 삭제)" + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+	}
+
+	// 해당 게시물 신고 삭제
+	public void setReportSaleDeleteAll(int idx, String part) {
+		try {
+			sql = "delete from reportJ where partIdx = ? and part=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			pstmt.setString(2, part);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("sql문 오류(해당 게시물 신고 삭제)" + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+	}
+	
+	// 신고된 게시글 총 레코드 개수 
+	public int getTotReportRecCnt() {
+		int totRecCnt =0;
+		try {
+			sql = "select count(*) as cnt from reportJ";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			
+			totRecCnt = rs.getInt("cnt");
+		} catch (SQLException e) {
+			System.out.println("sql구문 오류(신고된 게시글 총 레코드 개수 )" + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return totRecCnt;
+	}
+
+	// 신고된 게시글 리스트
+	public ArrayList<ReportJVO> getReportBoardList(int startIndexNo, int pageSize) {
+		ArrayList<ReportJVO> vos =  new ArrayList<ReportJVO>();
+		try {
+			sql = "select *,timestampDiff(hour,cpDate,now()) as hour_diff, timestampDiff(day,cpDate,now()) as date_diff from reportJ order by idx desc limit ?,?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, startIndexNo);
+			pstmt.setInt(2, pageSize);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				ReportJVO vo = new ReportJVO();
+				vo.setIdx(rs.getInt("idx"));
+				vo.setPart(rs.getString("part"));
+				vo.setPartIdx(rs.getInt("partIdx"));
+				vo.setCpMid(rs.getString("cpMid"));
+				vo.setTitle(rs.getString("title"));
+				vo.setCpContent(rs.getString("cpContent"));
+				vo.setCpDate(rs.getString("cpDate"));
+				vo.setfSName(rs.getString("fSName"));
+				
+				vo.setHour_diff(rs.getString("hour_diff"));
+				vo.setDate_diff(rs.getString("date_diff"));
+				
+				vos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("sql구문 오류(신고된 게시글 리스트)" + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vos;
+	}
+
+	// 게시글에 문제가 없으면 신고되었던 신고글 삭제하기(모두)
+	public int setDeleteReport(int partIdx) {
+		int res = 0;
+		try {
+			sql = "delete from reportJ where partIdx=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, partIdx);
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("sql구문 오류(게시글에 문제가 없으면 신고되었던 신고글 삭제하기(모두))" + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		return res;
 	}
 }

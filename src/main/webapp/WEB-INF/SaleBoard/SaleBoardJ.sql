@@ -48,7 +48,8 @@ create table reportJ (
 	cpMid varchar(17) not null, 					/* 신고자 아이디 */
 	title varchar(21) not null, 					/* 신고된 게시글 제목 */
 	cpContent text not null, 						/* 신고 사유 */
-	cpDate datetime default now() 					/* 신고날짜 */
+	cpDate datetime default now(), 					/* 신고날짜 */
+	fSName varchar(200) not null
 );
 
 -- 새로 들어온 좋아요 수.. sql 확인겸..

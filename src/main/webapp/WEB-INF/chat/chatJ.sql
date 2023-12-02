@@ -16,6 +16,8 @@ create table chatGroupJ(
 );
 
 drop table chatGroupJ
+-- 채팅 알림 확인
+select *,count(*) as TotAlarm from chatJ where (saleMid='admin' or myMid='admin') and whoChatMid != 'admin' and alarm='Y' group by chatIdx;
 
 create table chatJ(
 	idx int not null auto_increment primary key,

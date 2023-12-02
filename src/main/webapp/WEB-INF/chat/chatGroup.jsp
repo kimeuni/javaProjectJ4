@@ -78,21 +78,23 @@
 			</a>
 		</c:if>
 		<!-- 현재 만들어진 채팅방 그룹 리스트 -->
-		<c:forEach var="cgVO" items="${cgVOS}">
-			<a href="chatting.cht?saleBoardIdx=${cgVO.saleBoardIdx}&saleMid=${cgVO.saleMid}&myMid=${cgVO.myMid}">
-			<div id="chatList">
-				<c:if test="${cgVO.saleMid != sMid }">
-					<span style="width: 400px; display: inline-block;">
-					${cgVO.saleMid} 
-					</span>
-					<c:if test="${cgVO.totAlarm != 0 }"><span class="newMsg">${cgVO.totAlarm }</span></c:if>
-				</c:if>
-				<c:if test="${cgVO.myMid != sMid }">
-					<span style="width: 400px; display: inline-block;">${cgVO.saleMid}</span>
-					<c:if test="${cgVO.totAlarm != 0 }"><span class="newMsg">${cgVO.totAlarm }</span></c:if>
-				</c:if>
-			</div>
-			</a>
+		<c:forEach var="cgVO" items="${cgListVOS}">
+			<c:if test="${cgVO.saleBoardIdx != 0 }">
+				<a href="chatting.cht?saleBoardIdx=${cgVO.saleBoardIdx}&saleMid=${cgVO.saleMid}&myMid=${cgVO.myMid}">
+				<div id="chatList">
+					<c:if test="${cgVO.saleMid != sMid }">
+						<span style="width: 400px; display: inline-block;">
+						${cgVO.saleMid} 
+						</span>
+						<c:if test="${cgVO.totAlarm != 0 }"><span class="newMsg">${cgVO.totAlarm }</span></c:if>
+					</c:if>
+					<c:if test="${cgVO.myMid != sMid }">
+						<span style="width: 400px; display: inline-block;">${cgVO.saleMid}</span>
+						<c:if test="${cgVO.totAlarm != 0 }"><span class="newMsg">${cgVO.totAlarm }</span></c:if>
+					</c:if>
+				</div>
+				</a>
+			</c:if>
 		</c:forEach>
 	</div>
 </div>

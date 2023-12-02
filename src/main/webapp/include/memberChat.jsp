@@ -12,11 +12,6 @@
 	int chatIdx = Integer.parseInt(request.getParameter("idx")); 
 	int chat = Integer.parseInt(request.getParameter("idx")); 
 	
-	
-	System.out.println("chatIdx"+chatIdx);
-	System.out.println("chatIdx"+chatIdx);
-	
-	
 	ArrayList<ChatJVO> vos = dao.getMemberChatList(chatIdx);
 	pageContext.setAttribute("vos", vos); //EL로 사용하기 위해...
 	

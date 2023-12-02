@@ -217,6 +217,18 @@
 		background-color: skyblue;
 		color : #fff;
     }
+    #chatAlarm{
+    	font-size: 12px;
+    	background-color: #fff;
+    	
+    }
+    #chatAlarm:hover{
+    	background-color: #ffe;
+    }
+    #contentAlarmDiv hr{
+    	margin: 5px;
+    	border: 1px solid black;
+    }
 </style>
 <script>
     'use strict';
@@ -292,8 +304,6 @@
     	});
     });
     
-    // 알림
-    
     
     //카테고리
     $(function() {
@@ -354,7 +364,36 @@
 	<!-- 알림 메뉴 -->
 	<div id="contentAlarmDiv">
 		<div id="contentAlarm">
-			
+			<c:if test="${newLikeSize == 0 && ChatSize ==0 }">
+				<div style="text-align: center; vertical-align: middle; height: 100%">
+					<i class="fa-regular fa-bell" title="알림"></i>최근 알림이 없습니다.
+				</div>
+			</c:if>
+			<c:if test="${ChatSize != 0 }">
+				<div style="text-align: center;">채팅 알람</div>
+				<hr/>
+				<c:forEach var="cVO" items="${cgVOS}">
+					<a href="chatGroup.cht?saleBoardIdx=0&saleMid=&myMid=${sMid}">
+					<div id="chatAlarm">
+						<c:if test="${cVO.saleMid !=sMid }">${cVO.saleMid}님께서 보낸 채팅 ${cVO.totAlarm }건</c:if>
+						<c:if test="${cVO.myMid !=sMid }">${cVO.myMid}님께서 보낸 채팅 ${cVO.totAlarm }건</c:if>
+					</div>
+					</a>
+				</c:forEach>
+			</c:if>
+			<c:if test="${newLikeSize != 0 }">
+				<div style="text-align: center;">찜 알람</div>
+				<hr/>
+				<c:forEach var="nlVO" items="${newLike}">
+					<a href="saleAlarmNo.sa?idx=${nlVO.idx }">
+					<div id="chatAlarm">
+						<c:if test="${nlVO.newLike !=0 }">
+							<span style="color: red">${nlVO.title}</span>에 새로운 찜 ${nlVO.newLike}개
+						</c:if>
+					</div>
+					</a>
+				</c:forEach>
+			</c:if>
 	    </div>	
     </div>
 	<!-- 상점 -->

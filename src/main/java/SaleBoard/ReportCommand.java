@@ -16,12 +16,14 @@ public class ReportCommand implements SaleBoardInterface {
 		String title = request.getParameter("title")== null ? "" : request.getParameter("title");
 		String cpContent = request.getParameter("cpContent")== null ? "" : request.getParameter("cpContent");
 		String cpContOther = request.getParameter("cpContOther")== null ? "" : request.getParameter("cpContOther");
+		String fSName = request.getParameter("fSName")==null ? "" : request.getParameter("fSName");
 		
 		ReportJVO vo = new ReportJVO();
 		vo.setPart(part);
 		vo.setPartIdx(partIdx);
 		vo.setCpMid(cpMid);
 		vo.setTitle(title);
+		vo.setfSName(fSName);
 		if(cpContent.equals("기타")) {
 			vo.setCpContent(cpContOther);
 		}

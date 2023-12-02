@@ -232,7 +232,8 @@
 					cpMid : "${sMid}",
 					title : "${vo.title}",
 					cpContent : cpWhy,
-					cpContOther : otherWhy
+					cpContOther : otherWhy,
+					fSName : '${vo.fSName}'
 				}
 				$.ajax({
 					url : "report.sa",

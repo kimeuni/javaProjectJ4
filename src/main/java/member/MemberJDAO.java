@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import common.GetConn;
 
@@ -229,6 +230,57 @@ public class MemberJDAO {
 		} finally {
 			pstmtClose();
 		}
+	}
+
+	// 멤버 전체 레코드 개수
+	public int getTotMemberRecCnt() {
+		int totRecCnt =0;
+		try {
+			sql = "select count(*) as cnt from memberJ";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			
+			totRecCnt = rs.getInt("cnt");
+		} catch (SQLException e) {
+			System.out.println("sql구문 오류(멤버 전체 레코드 개수)" + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return totRecCnt;
+	}
+
+	// 멤버 전체 리스트
+	public ArrayList<MemberJVO> getMemberList(int startIndexNo, int pageSize) {
+		ArrayList<MemberJVO> vos = new ArrayList<MemberJVO>();
+		try {
+			sql= "select * from memberJ order by idx desc";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				MemberJVO vo = new MemberJVO();
+				vo.setIdx(rs.getInt("idx"));
+				vo.setMid(rs.getString("mid"));
+				vo.setPwd(rs.getString("pwd"));
+				vo.setName(rs.getString("name"));
+				vo.setNickName(rs.getString("nickName"));
+				vo.setAddress(rs.getString("address"));
+				vo.setTel(rs.getString("tel"));
+				vo.setEmail(rs.getString("email"));
+				vo.setGender(rs.getString("gender"));
+				vo.setProfile(rs.getString("profile"));
+				vo.setUserDel(rs.getString("userDel"));
+				vo.setAdminYN(rs.getString("adminYN"));
+				vo.setStartDate(rs.getString("startDate"));
+				vo.setLastDate(rs.getString("lastDate"));
+				vos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("sql구문 오류(멤버 전체 리스트)" + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vos;
 	}
 
 	

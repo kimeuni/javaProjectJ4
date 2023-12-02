@@ -21,6 +21,8 @@ public class SaleBoardController extends HttpServlet{
 		
 		// 판매 게시글 등록하기 화면
 		if(com.equals("/saleupdate")) {
+			command = new SaleUpdateCommand();
+			command.execute(request, response);
 			viewPage += "/saleupdate.jsp";
 		}
 		// 판매 게시글 등록하기 처리
@@ -118,6 +120,12 @@ public class SaleBoardController extends HttpServlet{
 			command = new MyStoreManageCommand();
 			command.execute(request, response);
 			viewPage += "/myStoreManagement.jsp";
+		}
+		// 헤더 알림 (찜목록) 클릭 시 알림 N로 변경
+		else if(com.equals("/saleAlarmNo")) {
+			command = new SaleAlarmNoCommand();
+			command.execute(request, response);
+			viewPage += "/saleContent.jsp";
 		}
 		request.getRequestDispatcher(viewPage).forward(request, response);
 	}

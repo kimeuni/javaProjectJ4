@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import chat.ChatJVO;
 import member.MemberJDAO;
 import member.MemberJVO;
 
@@ -40,5 +42,24 @@ public class MyStoreLikeCommand implements SaleBoardInterface {
 		request.setAttribute("likeSize", likeVOS.size());
 		request.setAttribute("saleAllSize", saCnt.size());
 		request.setAttribute("saVOS", saVOS);
+		
+		HttpSession session = request.getSession();
+		String sMid = (String)session.getAttribute("sMid");
+		// 현재 로그인한 사람이 등록한 게시물 가져오기
+		ArrayList<SaleBoardVO> saleMidVOS = saDAO.getOneSaleBoardMidList(sMid, 0, 0);
+		
+		// 알림 띄울 내용 가져오기 (찜목록)
+		ArrayList<SaleBoardVO> newLike = new ArrayList<SaleBoardVO>();
+		for(int i=0; i<saleMidVOS.size(); i++) {
+			SaleBoardVO saVO = new SaleBoardVO();
+			saVO = saDAO.getSaleNewLikeCnt(saleMidVOS.get(i).getIdx(),sMid);
+			newLike.add(saVO);
+		}
+		
+		// 알림 띄울 내용 가져오기(채팅)
+		ArrayList<ChatJVO> cgVOS = saDAO.getMsgTotAlarm(sMid);
+		request.setAttribute("newLike", newLike);
+		request.setAttribute("cgVOS", cgVOS);
+		request.setAttribute("newLikeSize", newLike.size());
 	}
 }

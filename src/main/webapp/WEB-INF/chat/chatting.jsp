@@ -107,11 +107,11 @@
 		<!-- 구매 혹은 판매하려는 게시물 정보 -->
 		<div>
 			<div style="width: 20%; float: left">
-				<a href="saleContent.sa?idx=${saVO.idx}"><img src="${ctp}/images/sale/${saVO.fSName}" id="saleImg"></a>
+				<a href="saleContent.sa?idx=${saleVO.idx}"><img src="${ctp}/images/sale/${saleVO.fSName}" id="saleImg"></a>
 			</div>
 			<div style="width: 79%; float: left; text-align: left;">
-				<b>${saVO.money}원</b><br/>
-				<span style="color: gray">${saVO.title}</span>
+				<b>${saleVO.money}원</b><br/>
+				<span style="color: gray">${saleVO.title}</span>
 			</div>
 		</div>
 		<div style="clear: both;"></div>
