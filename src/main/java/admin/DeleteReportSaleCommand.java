@@ -34,6 +34,12 @@ public class DeleteReportSaleCommand implements AdminInterface {
 		// 해당 게시물 찜 삭제
 		dao.setLikeSaleDeleteAll(idx);
 		
+		// 해당 게시글의 채팅 그룹 삭제
+		dao.setChatGroupDelete(idx);
+		
+		// 해당 글의 게시글 삭제
+		dao.setChatDelete(idx);
+		
 		// 데이터 베이스 삭제
 		int res = dao.setDeleteSale(idx);
 		

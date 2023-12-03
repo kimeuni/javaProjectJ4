@@ -80,7 +80,9 @@ int idx = request.getParameter("idx")==null ? 0 : Integer.parseInt(request.getPa
 		for(int i=0; i<saleMidVOS.size(); i++) {
 			SaleBoardVO saVO = new SaleBoardVO();
 			saVO = dao.getSaleNewLikeCnt(saleMidVOS.get(i).getIdx(),mid);
-			newLike.add(saVO);
+			if(saVO.getTitle() != null) {
+				newLike.add(saVO);
+			}
 		}
 		
 		// 알림 띄울 내용 가져오기(채팅)
@@ -88,6 +90,7 @@ int idx = request.getParameter("idx")==null ? 0 : Integer.parseInt(request.getPa
 		request.setAttribute("newLike", newLike);
 		request.setAttribute("cgVOS", cgVOS);
 		request.setAttribute("newLikeSize", newLike.size());
+		request.setAttribute("ChatSize", cgVOS.size());
 	}
 
 }

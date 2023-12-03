@@ -78,7 +78,7 @@
         		}
         	}
     	
-    	// Enter(keyCode 13번)시, nickOk() 함수를 불러온다.
+    	// Enter(keyCode 13번)시
     	$(function() {
     		$("#nickC").on("keydown",function(e) {
     			if(e.keyCode == 13){

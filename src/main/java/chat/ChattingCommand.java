@@ -21,8 +21,8 @@ public class ChattingCommand implements ChatInterface {
 		String saleMid = request.getParameter("saleMid")==null? "" : request.getParameter("saleMid");
 		String myMid = request.getParameter("myMid")==null? "" : request.getParameter("myMid");
 		String chat = request.getParameter("chat")== null ? "" : request.getParameter("chat");
-		chat.replace("<", "&lt;");  //태그 사용 못하도록 막기 위해 변환
-		chat.replace(">", "&gt;");
+		chat = chat.replace("<", "&lt;");  //태그 사용 못하도록 막기 위해 변환
+		chat = chat.replace(">", "&gt;");
 		
 		// 아이디 등록하는 사람을 알기 위한 sMid 세션 가져오기
 		HttpSession session = request.getSession();
@@ -73,13 +73,18 @@ public class ChattingCommand implements ChatInterface {
 		for(int i=0; i<saleMidVOS.size(); i++) {
 			SaleBoardVO saVO = new SaleBoardVO();
 			saVO = saDAO.getSaleNewLikeCnt(saleMidVOS.get(i).getIdx(),mid);
-			newLike.add(saVO);
+			if(saVO.getTitle() != null) {
+				newLike.add(saVO);
+			}
 		}
+		
+		System.out.println(newLike.size());
 		
 		// 알림 띄울 내용 가져오기(채팅)
 		ArrayList<ChatJVO> cgVOS = saDAO.getMsgTotAlarm(mid);
 		request.setAttribute("newLike", newLike);
 		request.setAttribute("cgVOS", cgVOS);
 		request.setAttribute("newLikeSize", newLike.size());
+		request.setAttribute("ChatSize", cgVOS.size());
 	}
 }

@@ -145,7 +145,7 @@
         function emailCheck(){
         	let url = "emailCheck.mem";
         	let winName = "이메일 중복확인";
-        	let opt = "width=500px, height=350px, top=300px, left=500px " 
+        	let opt = "width=700px, height=350px, top=300px, left=500px " 
         	
        		childWindow = window.open(url,winName,opt)
         }
@@ -172,7 +172,6 @@
         	let regPwd = /^(?=.*[a-zA-Z0-9])(?=.*[~!@#$%^&*()_+[\]{}?]).{8,16}$/; //영문자(대/소), 숫자,특수문자(~!@#$%^&*()_+[]{}?)를 각각 1자이상 포함하고 8~16자까지 입력 
         	let regName = /^[가-힣]{2,10}$/; //이름은 한글로, 2~10자
         	let regTel = /^[0-9]{3,4}$/; //숫자만 3~4자
-        	//let regEmail = /^[\w]{3,15}@[a-zA-Z]+\.[a-z]{2,3}$/;   //이메일 형식에 맞도록
         	
         	// input에 적혀있는 값 가져오기
         	let mid = document.getElementById("mid").value;

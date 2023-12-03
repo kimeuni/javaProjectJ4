@@ -64,7 +64,7 @@
 <h2><span style="color: red">${search}</span>의 검색결과 <span style="color: gray">${saleSize}개</span></h2>
 <hr/>
 	<c:if test="${saleSize == 0 }"><h4 style="margin: 10px 0px;">검색하신 "<span style="color: red">${search}</span>"는(은) 존재하지 않는 상품입니다.</h4></c:if>
-   	<c:forEach var="allVO" items="${saVOS}" varStatus="st">
+   	<c:forEach var="allVO" items="${saleVOS}" varStatus="st">
     <c:set var="fSNames" value="${fn:split(allVO.fSName,'/')}"/>
 	<c:if test="${allVO.userDel != 'Y' }">
 	<!-- forEach를 통하여 등록된 게시글 출력 -->
@@ -96,7 +96,7 @@
 </div>
 <div id="likeDiv">
 	<!-- 찜 목록 클릭시 전체 찜목록으로 이동(내가 찜한 것만) -->
-	<a href="">
+	<a href="myStoreLike.sa?mid=${sMid}">
 		<h6 style="text-align: center">찜 목록</h6>
 		<div style="text-align: center"><i class="fa-solid fa-heart" style="color:red"></i>${likeSize}</div>
 	</a>

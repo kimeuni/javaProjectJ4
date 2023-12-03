@@ -20,6 +20,7 @@ public class ChatGroupCommand implements ChatInterface {
 		String myMid = request.getParameter("myMid")==null? "" : request.getParameter("myMid");
 		
 		
+		SaleBoardDAO saDAO = new SaleBoardDAO();
 		// 만들어진 채팅 그룹이 있는지 확인
 		ChatDAO dao = new ChatDAO();
 		
@@ -40,7 +41,6 @@ public class ChatGroupCommand implements ChatInterface {
 		request.setAttribute("myMid", myMid);
 		
 		
-		SaleBoardDAO saDAO = new SaleBoardDAO();
 		
 		HttpSession session = request.getSession();
 		String mid = (String)session.getAttribute("sMid");
@@ -52,7 +52,9 @@ public class ChatGroupCommand implements ChatInterface {
 		for(int i=0; i<saleMidVOS.size(); i++) {
 			SaleBoardVO saVO = new SaleBoardVO();
 			saVO = saDAO.getSaleNewLikeCnt(saleMidVOS.get(i).getIdx(),mid);
-			newLike.add(saVO);
+			if(saVO.getTitle() != null) {
+				newLike.add(saVO);
+			}
 		}
 		
 		// 알림 띄울 내용 가져오기(채팅)
@@ -60,5 +62,6 @@ public class ChatGroupCommand implements ChatInterface {
 		request.setAttribute("newLike", newLike);
 		request.setAttribute("cgVOS", cgVOS);
 		request.setAttribute("newLikeSize", newLike.size());
+		request.setAttribute("ChatSize", cgVOS.size());
 	}
 }

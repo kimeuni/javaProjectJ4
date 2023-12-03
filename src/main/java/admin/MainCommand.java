@@ -49,11 +49,14 @@ public class MainCommand implements AdminInterface {
 		for(int i=0; i<saleMidVOS.size(); i++) {
 			SaleBoardVO saVO = new SaleBoardVO();
 			saVO = dao.getSaleNewLikeCnt(saleMidVOS.get(i).getIdx(),mid);
-			newLike.add(saVO);
+			if(saVO.getTitle() != null) {
+				newLike.add(saVO);
+			}
 		}
 		
 		// 알림 띄울 내용 가져오기(채팅)
 		ArrayList<ChatJVO> cgVOS = dao.getMsgTotAlarm(mid);
+		
 		
 		request.setAttribute("allVOS", allVOS);
 		request.setAttribute("saVOS", saVOS);

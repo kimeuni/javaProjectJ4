@@ -26,7 +26,9 @@ public class SaleUpdateCommand implements SaleBoardInterface {
 		for(int i=0; i<saleMidVOS.size(); i++) {
 			SaleBoardVO saVO = new SaleBoardVO();
 			saVO = saDAO.getSaleNewLikeCnt(saleMidVOS.get(i).getIdx(),mid);
-			newLike.add(saVO);
+			if(saVO.getTitle() != null) {
+				newLike.add(saVO);
+			}
 		}
 		
 		// 알림 띄울 내용 가져오기(채팅)
@@ -34,6 +36,7 @@ public class SaleUpdateCommand implements SaleBoardInterface {
 		request.setAttribute("newLike", newLike);
 		request.setAttribute("cgVOS", cgVOS);
 		request.setAttribute("newLikeSize", newLike.size());
+		request.setAttribute("ChatSize", cgVOS.size());
 	}
 
 }

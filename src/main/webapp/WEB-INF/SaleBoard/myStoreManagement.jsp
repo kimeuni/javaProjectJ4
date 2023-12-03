@@ -129,7 +129,17 @@
     			alert("예약중 혹은 판매완료된 상품은 up하기가 불가능합니다.")
     		}
     		else {
-    			location.href="myStoreMangeUp.sa?idxUp="+idxUp+"&mid="+mid;
+    			$.ajax({
+    				url : "myStoreMangeUp.sa",
+    				type : "post",
+    				data : {idxUp : idxUp},
+    				success : function(res){
+    					location.reload();
+    				},
+    				error : function(){
+    					alert()
+    				}
+    			});
     		}
     	}
     	
@@ -170,7 +180,7 @@
 			<div id="saleStr">상품 <span style="color:red">${saleAllSize}</span></div>
 			<div id="userCategoryDiv">
 				<div class="searchDiv" style="border: 1px solid gray;">
-					<input type="text" name="myStoreSearch" id="myStoreSearch" placeholder="상품명을 입력해주세요" />
+					<input type="text" name="myStoreSearch" id="myStoreSearch" value="${myStoreSearch }" placeholder="상품명을 입력해주세요" />
 					<a href="javascript:searchMyStore('${sMid}')" style="padding: 10px;"><i class="fa-solid fa-magnifying-glass" ></i></a>
 				</div>
 				<div class="searchDiv">

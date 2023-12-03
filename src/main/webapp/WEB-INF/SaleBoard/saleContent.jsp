@@ -297,7 +297,7 @@
 					<!-- 찜 데이터베이스 만들면 만약 sMid(로그인한 아이디로) 찜 눌렀을시 하트 색 바꾸기 -->
 					<!-- 자신이 등록한 글이면 찜,채팅,신고 버튼이 보이지 않음 -->
 					<c:if test="${sMid == vo.mid}">
-						<button name="myStoreHome" id="myStoreHome" onclick="location.href='myStoreSale.sa?mid=${sMid}'">내 상점 관리</button>
+						<button name="myStoreHome" id="myStoreHome" onclick="location.href='myStoreManagement.sa?mid=${sMid}'">내 상점 관리</button>
 					</c:if>
 					<c:if test="${sMid != vo.mid}">
 						<!-- 찜 안했을 때 -->

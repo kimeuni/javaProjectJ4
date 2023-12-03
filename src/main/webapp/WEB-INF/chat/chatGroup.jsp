@@ -89,7 +89,7 @@
 						<c:if test="${cgVO.totAlarm != 0 }"><span class="newMsg">${cgVO.totAlarm }</span></c:if>
 					</c:if>
 					<c:if test="${cgVO.myMid != sMid }">
-						<span style="width: 400px; display: inline-block;">${cgVO.saleMid}</span>
+						<span style="width: 400px; display: inline-block;">${cgVO.myMid}</span>
 						<c:if test="${cgVO.totAlarm != 0 }"><span class="newMsg">${cgVO.totAlarm }</span></c:if>
 					</c:if>
 				</div>

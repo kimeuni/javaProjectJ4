@@ -10,9 +10,6 @@ create table chatGroupJ(
 	foreign key(saleBoardIdx) references saleBoardJ (idx) 	/* 외래키 설정 */
 	on update cascade	  									/* 관련된 정보가 바뀌면 내것도 바꿔줘 라는 의미의 명령어 */
 	on delete set null,
-	foreign key(saleMid) references saleBoardJ (mid) 		/* 외래키 설정 */
-	on update cascade	  									/* 관련된 정보가 바뀌면 내것도 바꿔줘 라는 의미의 명령어 */
-	on delete set null 	
 );
 
 drop table chatGroupJ

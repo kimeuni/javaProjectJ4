@@ -64,7 +64,8 @@ public class SaleBoardDAO {
 	public ArrayList<SaleBoardVO> getSaleAllList() {
 		ArrayList<SaleBoardVO> vos = new ArrayList<SaleBoardVO>();
 		try {
-			sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff from saleBoardJ where userDel='N' order by uploadDate desc limit 0,30 ";
+			sql = "select *,timestampDiff(hour,uploadDate,now()) as hour_diff, timestampDiff(day,uploadDate,now()) as date_diff "
+					+ "from saleBoardJ where userDel='N' order by uploadDate desc limit 0,30 ";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -558,12 +559,29 @@ public class SaleBoardDAO {
 	}
 
 	// 해당 유저 상품 총 레코드 건수 (상품관리)
-	public int getTotRecCnt(String mid) {
+	public int getTotRecCnt(String mid, String myStoreSearch, String state) {
 		int totRecCnt =0;
 		try {
-			sql = "select count(*) as cnt from saleBoardJ where mid=?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, mid);
+			if(myStoreSearch.equals("") && state.equals("")) {
+				sql = "select count(*) as cnt from saleBoardJ where mid=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, mid);
+			}
+			else if(!myStoreSearch.equals("")) {
+				// 검색했을 시
+				sql = "select count(*) as cnt from saleBoardJ where mid=? and title like ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, mid);
+				pstmt.setString(2, "%"+myStoreSearch+"%");
+			}
+			// state를 변경 검색 했을 시
+			else if(!state.equals("")) {
+				sql = "select count(*) as cnt from saleBoardJ where mid=? and state =?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, mid);
+				pstmt.setString(2, state);
+				
+			}
 			rs = pstmt.executeQuery();
 			rs.next();
 			
@@ -648,12 +666,13 @@ public class SaleBoardDAO {
 	public SaleBoardVO getSaleNewLikeCnt(int idx, String mid) {
 		SaleBoardVO vo = new SaleBoardVO();
 		try {
-			sql = "select (select count(*) from likeJ where saleBoardIdx = ? and alarm='Y') as newLike, title, idx "
-					+ "from saleBoardJ where idx = ? and mid=? and totLike!=0 group by idx";
+			sql = "select (select count(*) from likeJ where saleBoardIdx = ? and alarm='Y') as newLike, sj.title, sj.idx "
+					+ "from saleBoardJ sj, likeJ lj where sj.idx = ? and sj.mid=? and  lj.saleBoardIdx=? and lj.alarm='Y' group by sj.idx";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			pstmt.setInt(2, idx);
 			pstmt.setString(3, mid);
+			pstmt.setInt(4, idx);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				vo.setTitle(rs.getString("title"));
@@ -812,5 +831,34 @@ public class SaleBoardDAO {
 			pstmtClose();
 		}
 		return res;
+	}
+
+	// 글 삭제시 채팅 그룹도 삭제
+	public void setChatGroupDelete(int idx) {
+		try {
+			sql = "delete from chatGroupJ where saleBoardIdx=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("sql구문 오류( 글 삭제시 채팅 그룹도 삭제)" + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		
+	}
+	
+	// 글 삭제시 채팅도 삭제
+	public void setChatDelete(int idx) {
+		try {
+			sql = "delete from chatJ where saleBoardIdx=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("sql구문 오류(글 삭제시 채팅도 삭제)" + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
 	}
 }

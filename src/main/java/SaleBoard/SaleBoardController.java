@@ -106,14 +106,14 @@ public class SaleBoardController extends HttpServlet{
 		// 내 상점 (상점관리) 부분 state 변경 처리
 		else if(com.equals("/myStoreManagementstateChange")) {
 			command = new MyStoreManageCommand();
-			command.execute(request, response);
+			command.execute(request, response); 
 			viewPage += "/myStoreManagement.jsp";
 		}
-		// 내 상점 (상점관리) 부분 state 변경 처리
+		// 내 상점 (상점관리) 부분 날짜 now변경 처리
 		else if(com.equals("/myStoreMangeUp")) {
-			command = new MyStoreManageCommand();
+			command = new MyStoreMangeUpCommand();
 			command.execute(request, response);
-			viewPage += "/myStoreManagement.jsp";
+			return;
 		}
 		// 내 상점 (상점관리) 부분 검색 처리
 		else if(com.equals("/myStoreSearchList")) {

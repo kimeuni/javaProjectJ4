@@ -22,6 +22,9 @@ public class InfoChangeOkCommend implements MemberInterface {
 		HttpSession session = request.getSession();
 		String mid = (String)session.getAttribute("sMid");
 		
+		// 닉네임이 변경됐을 시, 세션 변경을 위해 세션 저장
+		session.setAttribute("sNickName", nickName);
+		
 		// vo에 담기
 		MemberJVO vo = new MemberJVO();
 		vo.setProfile(profile);

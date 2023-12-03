@@ -19,10 +19,9 @@ public class MyStoreManageCommand implements SaleBoardInterface {
 		String mid = request.getParameter("mid")== null ? "" : request.getParameter("mid");
 		String category = request.getParameter("category")== null ? "" : request.getParameter("category");
 		String state = request.getParameter("state")== null ? "" : request.getParameter("state");
+		String myStoreSearch = request.getParameter("myStoreSearch")== null ? "" : request.getParameter("myStoreSearch");
 		int idx = request.getParameter("idx")== null ? 0 : Integer.parseInt(request.getParameter("idx"));
 		String stateChange = request.getParameter("stateChange")== null ? "" : request.getParameter("stateChange");
-		int idxUp = request.getParameter("idxUp")== null ? 0 : Integer.parseInt(request.getParameter("idxUp"));
-		String myStoreSearch = request.getParameter("myStoreSearch")== null ? "" : request.getParameter("myStoreSearch");
 		
 		
 		SaleBoardDAO saDAO = new SaleBoardDAO();
@@ -31,7 +30,7 @@ public class MyStoreManageCommand implements SaleBoardInterface {
 		// 페이징처리
 		int pageSu = request.getParameter("pageSu")== null ? 1 : Integer.parseInt(request.getParameter("pageSu"));
 		int pageSize = request.getParameter("pageSize")==null ? 5 : Integer.parseInt(request.getParameter("pageSize"));
-		int totRecode = saDAO.getTotRecCnt(mid);
+		int totRecode = saDAO.getTotRecCnt(mid,myStoreSearch,state);
 		int totPage = (totRecode%pageSize)== 0 ? (totRecode/pageSize) : (totRecode/pageSize)+1;
 		int startIndexNo = (pageSu - 1 ) *pageSize;
 		int startNo = totRecode - startIndexNo;
@@ -41,12 +40,8 @@ public class MyStoreManageCommand implements SaleBoardInterface {
 		int curBlock = (pageSu-1)/blockSize;
 		int lastBlock = (totPage-1)/blockSize;
 		
-		
 		// 판매중/예약중/판매완료 선택박스 업데이트
 		saDAO.setSaleStateUpdate(stateChange,idx);
-		
-		// up누를 시, 해당 게시물 uploadDate를 now()로 바꿔줌
-		saDAO.setSaleUploadDateUp(idxUp);
 		
 		// 화면에 뿌릴 유저 정보 (1건)
 		MemberJDAO mDAO = new MemberJDAO();
@@ -78,6 +73,7 @@ public class MyStoreManageCommand implements SaleBoardInterface {
 		request.setAttribute("category", category);
 		request.setAttribute("saleAllSize", saAllVOS.size());
 		request.setAttribute("state", state);
+		request.setAttribute("myStoreSearch", myStoreSearch);
 		
 		request.setAttribute("pageSize", pageSize);
 		request.setAttribute("pageSu", pageSu);
@@ -97,7 +93,9 @@ public class MyStoreManageCommand implements SaleBoardInterface {
 		for(int i=0; i<saleMidVOS.size(); i++) {
 			SaleBoardVO saVO = new SaleBoardVO();
 			saVO = saDAO.getSaleNewLikeCnt(saleMidVOS.get(i).getIdx(),sMid);
-			newLike.add(saVO);
+			if(saVO.getTitle() != null) {
+				newLike.add(saVO);
+			}
 		}
 		
 		// 알림 띄울 내용 가져오기(채팅)
@@ -105,6 +103,7 @@ public class MyStoreManageCommand implements SaleBoardInterface {
 		request.setAttribute("newLike", newLike);
 		request.setAttribute("cgVOS", cgVOS);
 		request.setAttribute("newLikeSize", newLike.size());
+		request.setAttribute("ChatSize", cgVOS.size());
 	}
 
 }
