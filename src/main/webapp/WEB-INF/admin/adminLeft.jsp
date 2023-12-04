@@ -30,7 +30,6 @@
 	<div>
 		<h4><b>회원관리</b></h4>
 		<div><a href="memberAllList.ad" target="adminContent">회원 리스트</a></div>
-		<div><a href="#" target="adminContent">탈퇴 신청 회원</a></div>
 	</div>
 	<hr/>
 	<div>

@@ -12,7 +12,7 @@
 <body>
 <p><br/></p>
 <div class="container">
-    관리자 메인 화면 입니다.
+    <div style="font-size: 3em; font-weight: bolder; margin-top: 35%"><i class="fa-solid fa-wrench"></i>현재 관리자 메인화면은 공사중 입니다.</div>
 </div>
 <p><br/></p>
 </body>

@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div style="background-color: #eee; text-align: center; padding: 20px 0px ">
+  <div style="width: 1100px; margin: 0 auto">
   <div>회사 소개 | 이용약관 | 운영정책 | 개인정보처리방침 | 청소년보호정책 | 광고제휴</div>
   <hr style="border: 1px solid #fff;  width: 1300px; text-align:center; "/>
-  <div style="float: left; padding-left: 400px; text-align: left">
+  <div style="float: left; text-align: left; padding-left: 120px;">
   		<b style="text-align: left">중고모아 사업정보</b><br/>
   		<div style="color: gray; text-align: left">
   			대표이사 : ooo | 개인정보보호책임자 : ooo <br/>
@@ -19,4 +20,5 @@
   		</div>
   </div>
   <div style="clear: both;"></div>
+  </div>
 </div>

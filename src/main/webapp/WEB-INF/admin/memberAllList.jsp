@@ -47,7 +47,7 @@
 					<a href="myStoreSale.sa?mid=${vo.mid}" class="btn btn-primary">상점 가기</a>
 				</td>
 			</tr>
-			<tr><td colspan="5" class="m-0 p-0"></td></tr>
+			<tr><td colspan="7" class="m-0 p-0"></td></tr>
 			<c:set var="startNo" value="${startNo-1}" />
 		</c:forEach>
 	</table>

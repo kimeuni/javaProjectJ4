@@ -93,7 +93,7 @@
 					<a href="javascript:adminReportNo('${vo.partIdx}','${vo.title }')" class="btn btn-secondary">문제없음</a>
 				</td>
 			</tr>
-			<tr><td colspan="5" class="m-0 p-0"></td></tr>
+			<tr><td colspan="7" class="m-0 p-0"></td></tr>
 			<c:set var="startNo" value="${startNo-1}" />
 		</c:forEach>
 	</table>
