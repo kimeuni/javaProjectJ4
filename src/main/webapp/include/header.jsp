@@ -323,7 +323,7 @@
 	<div id="headerMain">
 	    <div id="headerN">
 	        <div id="logo1" >
-	            <a href="http://localhost:9090/JavaProjectJ4/"><div id="logo2"><i class="fa-solid fa-box"></i> 중고모아</div></a>
+	            <a href="http://49.142.157.251:9090/JavaProjectJ4/"><div id="logo2"><i class="fa-solid fa-box"></i> 중고모아</div></a>
 	        </div>
 	        <div id="searchDivN">
 	            <input type="text" name="searchN" id="searchN" value="${search}" placeholder="상품 검색" />

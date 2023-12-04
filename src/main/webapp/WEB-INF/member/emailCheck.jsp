@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>닉네임 찾기</title>
+    <title>이메일 찾기</title>
     <jsp:include page="/include/bs4.jsp"/>
     <style>
     	body{
